@@ -1,9 +1,9 @@
 <template>
   <div>
-    <bu>25000000</bu>
+    <Button>25000000</Button>
   </div>
 </template>
 
 <script setup lang="ts">
-import bu from "../packages/components/Button/index.vue";
+import Button from "../packages/components/Button/button.vue";
 </script>
