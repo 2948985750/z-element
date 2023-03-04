@@ -1,0 +1,26 @@
+.z-button {
+  @apply flex  box-border items-center h-8 leading-none text-center align-middle rounded border;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+}
+
+.z-button--plain {
+  @apply bg-transparent text-zinc-900 border-gray-400 bg-clip-padding;
+  &:hover {
+    @apply bg-blue-500 text-white;
+  }
+}
+
+.z-button--primary {
+}
+
+.z-button--success {
+}
+
+.z-button--info {
+}
+
+.z-button--warning {
+}
