@@ -42,5 +42,10 @@
     "@vue/test-utils": "^2.0.0",
     "jsdom": "latest",
     "vitest": "latest"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
   }
 }
