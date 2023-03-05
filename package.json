@@ -6,7 +6,8 @@
   "scripts": {
     "commit": "git cz",
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vue-tsc --declaration --emitDeclarationOnly && vite build",
+    "build:min": "vue-tsc --declaration --emitDeclarationOnly && vite build --minify",
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest run --coverage",

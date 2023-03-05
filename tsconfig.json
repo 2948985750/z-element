@@ -11,11 +11,13 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    "noEmit": true
-    // "declaration": true /* 生成相关的 '.d.ts' 文件，这个选项会导致报错：模块的默认导出具有或正在使用专用名称xxx */,
-    // "declarationDir": "./dist/types" /* '.d.ts' 文件输出目录 */
+    "declaration": true /* 生成相关的 '.d.ts' 文件，这个选项会导致报错：模块的默认导出具有或正在使用专用名称xxx */,
+    "allowSyntheticDefaultImports": true,
+    "declarationDir": "./dist/types"
+
+    /* '.d.ts' 文件输出目录 */
   },
   "include": ["packages/**/*.ts", "packages/**/*.vue"],
-  "exclude": ["node_modules", "dist", "packages/**/*.tsx"],
+  "exclude": ["node_modules", "dist", "packages/**/__tests__"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

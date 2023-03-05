@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { expect, test } from 'vitest';
-import Button from '../button.vue';
+import Button from '../index.vue';
 import type { DefineComponent } from 'vue';
 
 test('mount component', async () => {

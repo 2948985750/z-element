@@ -13,8 +13,10 @@ import cssnano from 'cssnano';
 console.log(nesting);
 
 const rollupOptions = {
-  external: ['vue', 'vue-router'],
+  external: ['vue'],
   output: {
+    // Provide global variables to use in the UMD build
+    // for externalized deps
     globals: {
       vue: 'Vue',
     },
@@ -27,11 +29,11 @@ export default defineConfig({
   build: {
     rollupOptions,
     minify: false,
+    emptyOutDir: false,
     lib: {
       entry: './src/main.ts',
       name: 'SmartyUI',
-      fileName: 'smarty-ui',
-      // 导出模块格式
+      fileName: 'z-component',
       formats: ['es', 'umd', 'iife'],
     },
   },

@@ -1,18 +1,19 @@
-import type { ExtractPropTypes } from 'vue';
-type btnType = 'primary' | 'success' | 'info' | 'wraning' | 'danger' | 'plain' | 'text';
-type sizeType = 'default' | 'small' | 'large';
-type actionType = 'button' | 'submit' | 'reset';
+export interface ButtonProps {
+  type?: 'primary' | 'success' | 'info' | 'wraning' | 'danger' | 'plain' | 'text';
+  size?: 'default' | 'small' | 'large';
+  disabled?: boolean;
+  action?: 'button' | 'submit' | 'reset';
+  plain?: boolean;
+  round?: boolean;
+  circle?: boolean;
+  bg?: boolean;
+  color?: string;
+}
 
-const ButtonProps_ = {
-  type: String as unknown as btnType,
-  size: String as unknown as sizeType,
-  action: String as unknown as actionType,
-  disabled: Boolean,
-  plain: Boolean,
-  round: Boolean,
-  circle: Boolean,
-  bg: Boolean,
-  color: String,
-};
-
-export type ButtonProps = ExtractPropTypes<typeof ButtonProps_>;
+export interface ButtonBinding {
+  block: {
+    element(str: string, ...modifier: string[]): string;
+    modifier(...args: string[]): string;
+  };
+  defaultProps: ButtonProps;
+}
