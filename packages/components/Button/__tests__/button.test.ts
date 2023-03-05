@@ -1,9 +1,16 @@
 import { mount } from '@vue/test-utils';
-import { expect, it } from 'vitest';
+import { expect, test } from 'vitest';
 import Button from '../button.vue';
+import type { DefineComponent } from 'vue';
 
-it('mount component', async () => {
-  const wrapper = mount(() => Button, {});
-
-  expect(wrapper.text()).toBe(0);
+test('mount component', async () => {
+  const wrapper = mount<any>(Button, {
+    slots: {
+      default: 'hello',
+    },
+  });
+  expect(wrapper.text()).toBe('hello');
+  expect(wrapper.classes()).toStrictEqual(['z-button', 'z-button--plain']);
 });
+
+test('');
