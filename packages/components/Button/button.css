@@ -1,9 +1,33 @@
 .z-button {
   @apply flex  box-border items-center h-8 leading-none text-center align-middle rounded border;
-  padding: 0.2rem 0.5rem;
+  padding: 0.4rem 0.5rem;
   cursor: pointer;
   outline: none;
   appearance: none;
+  transition: background-color 0.2s;
+
+  > * {
+    margin: 0 0.2em;
+  }
+  > .z-button-slot {
+    @apply w-5 h-5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate {
+  animation-name: spin;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
 
 .z-button--plain {
@@ -14,13 +38,29 @@
 }
 
 .z-button--primary {
+  @apply bg-indigo-500 text-white;
+  &:hover {
+    @apply bg-blue-300;
+  }
 }
 
 .z-button--success {
+  @apply bg-green-500 text-white;
+  &:hover {
+    @apply bg-green-300;
+  }
 }
 
 .z-button--info {
+  @apply bg-gray-500 text-white;
+  &:hover {
+    @apply bg-gray-300;
+  }
 }
 
 .z-button--warning {
+  @apply bg-amber-500 text-white;
+  &:hover {
+    @apply bg-amber-300;
+  }
 }

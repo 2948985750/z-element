@@ -1,44 +1,30 @@
 <template>
-  <button :type="defaultProps.action" :disabled="defaultProps.disabled"
-    :class="[block.element('button'), block.element('button', (defaultProps as any).type)]">
-    <span>
-      <slot></slot>
+  <button :type="props.action" :disabled="props.disabled"
+    :class="[block.element('button'), block.element('button', (props as any).type)]">
+    <span :class="['z-button-slot', props.loading ? 'rotate' : '']">
+      <slot name="icon">
+        <component v-if="props.loading" :is="IconComponent"></component>
+        <component v-else :is="props.icon"></component>
+      </slot>
     </span>
     <span>
-      <slot name=""></slot>
-    </span><span>
-      <slot name=""></slot>
+      <slot></slot>
     </span>
   </button>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { computed } from "vue";
 import { bemBlock } from "../../utils/bem";
-import { withDefaultProps } from "../../utils/withDefaultProps"
-import type { ButtonProps, ButtonBinding } from "./button.type";
+import { ButtonProps } from './button';
+import { Message } from '@element-plus/icons-vue'
 
 
-export default /*#__PURE__*/ defineComponent<ButtonProps, ButtonBinding>({
-  name: "ZButton",
-  setup(props,) {
-    const defaultProps = withDefaultProps<ButtonProps>(props, {
-      type: "plain",
-      size: "default",
-      disabled: false,
-      action: "button",
-      plain: false,
-      round: false,
-      circle: false,
-      bg: true,
-    })
-    const block = bemBlock("z");
-    return {
-      block,
-      defaultProps
-    }
-  }
-})
+const props = defineProps(ButtonProps)
+const block = bemBlock('z')
+console.log(props.icon);
+
+const IconComponent = computed(() => props.loadingIcon ? props.loadingIcon : Message)
 </script>
 
 <style scoped lang="postcss">
