@@ -1,8 +1,10 @@
 .z-icon {
-  @apply w-5 h-5 flex;
+  @apply w-5 h-5 flex items-center;
+  > svg {
+    width: inherit;
+    height: inherit;
+    font-size: inherit;
+  }
 }
 .z-icon-svg {
-  width: inherit;
-  height: inherit;
-  font-size: inherit;
 }

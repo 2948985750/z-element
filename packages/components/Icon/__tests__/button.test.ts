@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { it, expect } from 'vitest';
 import { h } from 'vue';
-import Icon from '../index.vue';
+import Icon from '../ZIcon.vue';
 import { Check } from '@element-plus/icons-vue';
 it('icon mount', async () => {
   const dom = mount(Icon, {
@@ -9,6 +9,6 @@ it('icon mount', async () => {
       default: h(Check),
     },
   });
-  expect(dom.classes().join()).toBe('z-icon');
+  expect(dom.classes().join().includes('_z-icon_')).toBe(true);
   expect(dom.find('i').find('svg').element.tagName).toBe('svg');
 });

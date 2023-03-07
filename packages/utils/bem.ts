@@ -4,19 +4,23 @@ function join(strs: stringArr) {
   return strs.map((modifier: string) => '--' + modifier).join('');
 }
 
-function bemBlock(blockName?: string) {
+function nameSpace() {
   return {
     element(elementName: string, ...modifiers: stringArr) {
-      const prefix = blockName ? `${blockName}-${elementName}` : `${elementName}`;
-
+      const prefix = elementName;
       const prevfix = join(modifiers);
       return prefix + prevfix;
     },
     modifier(...modifierName: stringArr) {
       const prevfix = join(modifierName);
-      return blockName + prevfix;
+      return prevfix;
+    },
+    is(elementName: string, ...state: boolean[]) {
+      let state_ = state.every((state) => state === true);
+      if (state.length === 0) state_ = false;
+      return elementName && state_ ? elementName : '';
     },
   };
 }
 
-export { bemBlock };
+export { nameSpace };

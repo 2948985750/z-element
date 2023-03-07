@@ -1,16 +1,16 @@
 <template>
-    <i :class="[block.element('icon')]" :style="style">
+    <i :class="$style['z-icon']" :style="style">
         <slot></slot>
     </i>
 </template>
 
 <script lang="ts" setup>
-import { useSlots, defineProps, computed } from 'vue';
-import { bemBlock } from '../../utils/bem';
+import { useSlots, computed } from 'vue';
+import { nameSpace } from '../../utils/bem';
 import { IconProps } from './icon';
 
 
-const block = bemBlock('z')
+const block = nameSpace()
 const slots = useSlots()
 const props = defineProps(IconProps)
 
@@ -21,6 +21,6 @@ const style = computed(() => ({
 }))
 </script>
 
-<style scoped lang="postcss">
+<style module lang="postcss">
 @import './icon.css'
 </style>

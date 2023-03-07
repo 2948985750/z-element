@@ -30,17 +30,17 @@
   animation-iteration-count: infinite;
 }
 
+.z-button--primary {
+  @apply bg-indigo-500 text-white;
+  &:hover {
+    @apply bg-blue-900 text-white;
+  }
+}
+
 .z-button--plain {
   @apply bg-transparent text-zinc-900 border-gray-400 bg-clip-padding;
   &:hover {
     @apply bg-blue-500 text-white;
-  }
-}
-
-.z-button--primary {
-  @apply bg-indigo-500 text-white;
-  &:hover {
-    @apply bg-blue-300;
   }
 }
 
