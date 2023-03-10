@@ -5,12 +5,8 @@
   outline: none;
   appearance: none;
   transition: background-color 0.2s;
-
-  > * {
-    margin: 0 0.2em;
-  }
   > .z-button-slot {
-    @apply w-5 h-5;
+    @apply align-middle w-4;
   }
 }
 

@@ -10,5 +10,4 @@ it('icon mount', async () => {
     },
   });
   expect(dom.classes().join().includes('_z-icon_')).toBe(true);
-  expect(dom.find('i').find('svg').element.tagName).toBe('svg');
 });

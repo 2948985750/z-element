@@ -18,6 +18,6 @@
     /* '.d.ts' 文件输出目录 */
   },
   "include": ["packages/**/*.ts", "packages/**/*.vue"],
-  "exclude": ["node_modules", "dist", "packages/**/__tests__"],
+  "exclude": ["node_modules", "dist", "packages/**/__tests__", "vue.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

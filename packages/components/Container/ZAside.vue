@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<{ width?: string }>(), {
 
 <style module lang="postcss">
 .z-aside {
-    max-width: v-bind('props.width');
     @apply flex-grow px-2 py-1 w-64;
+    max-width: v-bind('props.width');
 }
 </style>
