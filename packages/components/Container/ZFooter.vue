@@ -15,9 +15,9 @@ const props = withDefaults(defineProps<{ height?: string, flex?: boolean }>(), {
 
 <style module lang="postcss">
 .z-footer {
-    height: v-bind('props.height');
     @apply px-2 h-14;
-    line-height: 3.5rem
+    height: v-bind('props.height');
+    line-height: v-bind('props.height')
 }
 
 .z-footer--flex {

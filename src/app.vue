@@ -4,9 +4,9 @@
     <Check style="width: 40px; height: 40px; color: red;" />
   </Icon>
   <Container>
-    <Header style="border: 1px solid red;">header</Header>
+    <Header flex style="border: 1px solid red;" height="100px">header</Header>
     <Container>
-      <Aside style="border: 1px solid red;">
+      <Aside style="border: 1px solid red;" width="400px">
         <ul>
           <li>1</li>
           <li>2</li>
@@ -22,6 +22,12 @@
     </Container>
     <ZFooter style="border: 1px solid red;">页脚</ZFooter>
   </Container>
+  <Row :space="20">
+    <Col :span="12" :md="4" :lg="4" style="border: 1px solid red">123</Col>
+    <Col :span="12" :md="4" :lg="4" style="border: 1px solid red">123</Col>
+    <Col :span="12" :md="4" :lg="4" style="border: 1px solid red">123</Col>
+    <Col :span="12" :md="4" :lg="4" style="border: 1px solid red">123</Col>
+  </Row>
 </template>
 
 <script setup lang="ts">
@@ -32,6 +38,8 @@ import Header from "../packages/components/Container/ZHeader.vue"
 import Aside from "../packages/components/Container/ZAside.vue"
 import Zmain from "../packages/components/Container/ZMain.vue"
 import ZFooter from "../packages/components/Container/ZFooter.vue"
+import Row from "../packages/components/Layout/ZRow.vue"
+import Col from '../packages/components/Layout/ZCol.vue'
 
 import {
   Check,
@@ -44,5 +52,5 @@ import {
 </script>
 
 <style lang="postcss">
-/* @tailwind base; */
+@tailwind base;
 </style>

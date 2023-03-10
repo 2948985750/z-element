@@ -1,10 +1,17 @@
 import { mount } from '@vue/test-utils';
 import { it, expect } from 'vitest';
 import ZContainer from '../ZContainer.vue';
+import ZHeader from '../ZHeader.vue';
+import { h } from 'vue';
 
 it('ZContainer mount', async () => {
-  const dom = mount(ZContainer);
-  expect(dom.classes().join()).toBe('_z-container_kta08_2');
+  const dom = mount(ZContainer, {
+    slots: {
+      default: 'container',
+    },
+  });
+  expect(dom.classes().join()).toMatch(/_z-container_/);
+  expect(dom.text()).toBe('container');
 });
 
 it('ZContainer direction prop', async () => {
@@ -14,5 +21,17 @@ it('ZContainer direction prop', async () => {
     },
   });
 
-  expect(prop_val_row.classes().join(',')).toBe('_z-container_kta08_2,_z-column_kta08_10');
+  const classes = prop_val_row.classes();
+  expect(classes.join()).toMatch(/_z-column_/);
+});
+
+it('ZContainer child', async () => {
+  const dom = mount(ZContainer, {
+    slots: {
+      default: h(ZHeader, null, 'header'),
+    },
+  });
+
+  const classes = dom.classes();
+  expect(classes.join()).toMatch(/_z-container_|_z-column_./);
 });

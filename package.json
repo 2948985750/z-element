@@ -37,6 +37,7 @@
     "jsdom": "latest",
     "postcss": "^8.4.21",
     "postcss-import": "^15.1.0",
+    "postcss-load-config": "^4.0.1",
     "postcss-nested": "^6.0.1",
     "postcss-nested-ancestors": "^3.0.0",
     "postcss-nesting": "^11.2.1",

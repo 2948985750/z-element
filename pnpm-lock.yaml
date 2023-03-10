@@ -19,6 +19,7 @@ specifiers:
   jsdom: latest
   postcss: ^8.4.21
   postcss-import: ^15.1.0
+  postcss-load-config: ^4.0.1
   postcss-nested: ^6.0.1
   postcss-nested-ancestors: ^3.0.0
   postcss-nesting: ^11.2.1
@@ -56,6 +57,7 @@ devDependencies:
   jsdom: registry.npmmirror.com/jsdom/21.1.0
   postcss: registry.npmmirror.com/postcss/8.4.21
   postcss-import: registry.npmmirror.com/postcss-import/15.1.0_postcss@8.4.21
+  postcss-load-config: registry.npmmirror.com/postcss-load-config/4.0.1_aesdjsunmf4wiehhujt67my7tu
   postcss-nested: registry.npmmirror.com/postcss-nested/6.0.1_postcss@8.4.21
   postcss-nested-ancestors: registry.npmmirror.com/postcss-nested-ancestors/3.0.0_postcss@8.4.21
   postcss-nesting: registry.npmmirror.com/postcss-nesting/11.2.1_postcss@8.4.21
@@ -5419,6 +5421,27 @@ packages:
       yaml: registry.npmmirror.com/yaml/1.10.2
     dev: true
 
+  registry.npmmirror.com/postcss-load-config/4.0.1_aesdjsunmf4wiehhujt67my7tu:
+    resolution: {integrity: sha512-vEJIc8RdiBRu3oRAI0ymerOn+7rPuMvRXslTvZUKZonDHFIczxztIyJ1urxM1x9JXEikvpWWTUUqal5j/8QgvA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/postcss-load-config/-/postcss-load-config-4.0.1.tgz}
+    id: registry.npmmirror.com/postcss-load-config/4.0.1
+    name: postcss-load-config
+    version: 4.0.1
+    engines: {node: '>= 14'}
+    peerDependencies:
+      postcss: '>=8.0.9'
+      ts-node: '>=9.0.0'
+    peerDependenciesMeta:
+      postcss:
+        optional: true
+      ts-node:
+        optional: true
+    dependencies:
+      lilconfig: registry.npmmirror.com/lilconfig/2.1.0
+      postcss: registry.npmmirror.com/postcss/8.4.21
+      ts-node: registry.npmmirror.com/ts-node/10.9.1_alpjt73dvgv6kni625hu7f2l4m
+      yaml: registry.npmmirror.com/yaml/2.2.1
+    dev: true
+
   registry.npmmirror.com/postcss-logical/6.1.0_postcss@8.4.21:
     resolution: {integrity: sha512-qb1+LpClhYjxac8SfOcWotnY3unKZesDqIOm+jnGt8rTl7xaIWpE2bPGZHxflOip1E/4ETo79qlJyRL3yrHn1g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/postcss-logical/-/postcss-logical-6.1.0.tgz}
     id: registry.npmmirror.com/postcss-logical/6.1.0
@@ -7288,6 +7311,13 @@ packages:
     name: yaml
     version: 1.10.2
     engines: {node: '>= 6'}
+    dev: true
+
+  registry.npmmirror.com/yaml/2.2.1:
+    resolution: {integrity: sha512-e0WHiYql7+9wr4cWMx3TVQrNwejKaEe7/rHNmQmqRjazfOP5W8PB6Jpebb5o6fIapbz9o9+2ipcaTM2ZwDI6lw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/yaml/-/yaml-2.2.1.tgz}
+    name: yaml
+    version: 2.2.1
+    engines: {node: '>= 14'}
     dev: true
 
   registry.npmmirror.com/yn/3.1.1:
