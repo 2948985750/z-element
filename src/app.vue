@@ -22,6 +22,12 @@
     </Container>
     <ZFooter style="border: 1px solid red;">页脚</ZFooter>
   </Container>
+  <ZTag round>标签</ZTag>
+  <ZTag type="warning">标签</ZTag>
+  <ZTag size="medium" type="error" round>标签</ZTag>
+  <ZTag size="large" type="processing">标签</ZTag>
+  <ZTag type="success" disabled>标签</ZTag>
+  <ZTag size="large" type="success" closable>标签</ZTag>
 </template>
 
 <script setup lang="ts">
@@ -32,6 +38,7 @@ import Header from "../packages/components/Container/ZHeader.vue"
 import Aside from "../packages/components/Container/ZAside.vue"
 import Zmain from "../packages/components/Container/ZMain.vue"
 import ZFooter from "../packages/components/Container/ZFooter.vue"
+import ZTag from "../packages/components/Tag/ZTag.vue";
 
 import {
   Check,

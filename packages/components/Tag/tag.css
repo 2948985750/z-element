@@ -1,0 +1,51 @@
+.z-tag{
+  @apply inline-block;
+  cursor: pointer;
+}
+
+.z-tag--button{
+  @apply border border-solid rounded-sm;
+}
+
+.z-tag--default{
+  border-color: theme(colors.gray.300);
+  background-color: theme(colors.gray.50);
+  color: theme(colors.gray.700);
+}
+
+.z-tag--warning{
+  border-color: theme(colors.orange.200);
+  background-color: theme(colors.orange.50);
+  color: theme(colors.orange.400);
+}
+
+.z-tag--error{
+  border-color: theme(colors.red.200);
+  background-color: theme(colors.red.50);
+  color: theme(colors.red.500);
+}
+
+.z-tag--processing{
+  border-color: theme(colors.blue.200);
+  background-color: theme(colors.blue.50);
+  color: theme(colors.blue.600);
+}
+
+.z-tag--success{
+  border-color: theme(colors.green.200);
+  background-color: theme(colors.green.50);
+  color: theme(colors.green.600);
+}
+
+.z-tag--small{
+  @apply mx-1 px-2 h-5 leading-5 text-sm;
+}
+
+.z-tag--medium{
+  @apply mx-1.5 px-2.5 h-7 leading-7 text-base;
+}
+
+.z-tag--large{
+  @apply mx-2 px-3 h-10 leading-10 text-lg;
+}
+

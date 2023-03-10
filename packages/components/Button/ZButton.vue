@@ -24,6 +24,7 @@ const props = defineProps(ButtonProps)
 const block = nameSpace()
 
 const IconComponent = computed(() => props.loadingIcon ? props.loadingIcon : Message)
+
 </script>
 
 <style module lang="postcss">
