@@ -1,12 +1,13 @@
 <template>
   <Button type="primary" :icon="Check" :loading="true" :loading-icon="Check">button</Button>
   <!-- <Icon>
+  <!-- <Icon>
     <Check style="width: 40px; height: 40px; color: red;" />
   </Icon> -->
   <Container>
-    <Header flex style="border: 1px solid red;" height="100px">header</Header>
+    <Header flex flex style="border: 1px solid red;" height="100px" height="100px">header</Header>
     <Container>
-      <Aside style="border: 1px solid red;" width="400px">
+      <Aside style="border: 1px solid red;" width="400px" width="400px">
         <ul>
           <li>1</li>
           <li>2</li>
@@ -38,6 +39,16 @@
   <div class="asd">
     <p class="qwe">123</p>
   </div>
+  <Row :space="20">
+    <Col :span="12" :md="4" :lg="4" style="border: 1px solid red">123</Col>
+    <Col :span="12" :md="4" :lg="4" style="border: 1px solid red">123</Col>
+    <Col :span="12" :md="4" :lg="4" style="border: 1px solid red">123</Col>
+    <Col :span="12" :md="4" :lg="4" style="border: 1px solid red">123</Col>
+  </Row>
+
+  <div class="asd">
+    <p class="qwe">123</p>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -51,6 +62,8 @@ import ZFooter from "../packages/components/Container/ZFooter.vue"
 import ZTag from "../packages/components/Tag/ZTag.vue";
 import Row from "../packages/components/Layout/ZRow.vue"
 import Col from '../packages/components/Layout/ZCol.vue'
+import Row from "../packages/components/Layout/ZRow.vue"
+import Col from '../packages/components/Layout/ZCol.vue'
 
 import {
   Check,
@@ -62,6 +75,14 @@ import {
 } from '@element-plus/icons-vue'
 </script>
 
+<style scoped lang="postcss">
+.asd {
+  color: red;
+
+  >p {
+    color: yellow;
+  }
+}
 <style scoped lang="postcss">
 .asd {
   color: red;
