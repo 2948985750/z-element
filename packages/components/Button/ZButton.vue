@@ -1,7 +1,7 @@
 <template>
   <button :type="props.action" :disabled="props.disabled"
-    :class="[$style['z-button'], block.element($style[`z-button--${props.type}`])]">
-    <span :class="['z-button-slot', props.loading ? 'rotate' : '']">
+    :class="[$style['z-button'], $style[`z-button--${props.type}`]]">
+    <span :class="[$style['z-button-slot'], block.is($style['rotate'], props.loading)]">
       <slot name="icon">
         <component v-if="props.loading" :is="IconComponent"></component>
         <component v-else :is="props.icon"></component>

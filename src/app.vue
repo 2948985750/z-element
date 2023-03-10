@@ -1,8 +1,8 @@
 <template>
   <Button type="primary" :icon="Check" :loading="true" :loading-icon="Check">button</Button>
-  <Icon>
+  <!-- <Icon>
     <Check style="width: 40px; height: 40px; color: red;" />
-  </Icon>
+  </Icon> -->
   <Container>
     <Header flex style="border: 1px solid red;" height="100px">header</Header>
     <Container>
@@ -28,6 +28,10 @@
     <Col :span="12" :md="4" :lg="4" style="border: 1px solid red">123</Col>
     <Col :span="12" :md="4" :lg="4" style="border: 1px solid red">123</Col>
   </Row>
+
+  <div class="asd">
+    <p class="qwe">123</p>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -51,6 +55,12 @@ import {
 } from '@element-plus/icons-vue'
 </script>
 
-<style lang="postcss">
-@tailwind base;
+<style scoped lang="postcss">
+.asd {
+  color: red;
+
+  >p {
+    color: yellow;
+  }
+}
 </style>
