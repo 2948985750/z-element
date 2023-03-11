@@ -1,6 +1,6 @@
 <template>
   <span
-    v-if="status"
+    v-if="!shouldDestroy"
     ref="target"
     :class="[ $style[defTagClass], round, disable,
     defStyle($style, `${props.size}`, `${props.styleType}`, `${props.type}`)]"
@@ -13,14 +13,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onBeforeUnmount } from 'vue'
+import { ref, computed  } from 'vue'
 import { TagProps } from './tag'
 import { nameSpace } from '../../utils/bem';
 import {
   Close
 } from '@element-plus/icons-vue'
 
-const status = ref(true)
+const shouldDestroy  = ref(false)
 /** 样式传参
  */
 const props = defineProps(TagProps)
@@ -48,7 +48,7 @@ const target = ref(null)
 const emits = defineEmits(['close'])
 const destroyComponent = () => {
   emits('close', target.value?.innerText)
-  status.value = false
+  shouldDestroy.value = true
 }
 
 </script>

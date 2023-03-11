@@ -1,13 +1,12 @@
 <template>
   <Button type="primary" :icon="Check" :loading="true" :loading-icon="Check">button</Button>
   <!-- <Icon>
-  <!-- <Icon>
     <Check style="width: 40px; height: 40px; color: red;" />
   </Icon> -->
   <Container>
-    <Header flex flex style="border: 1px solid red;" height="100px" height="100px">header</Header>
+    <Header flex style="border: 1px solid red;" height="100px" >header</Header>
     <Container>
-      <Aside style="border: 1px solid red;" width="400px" width="400px">
+      <Aside style="border: 1px solid red;" width="400px">
         <ul>
           <li>1</li>
           <li>2</li>
@@ -60,8 +59,6 @@ import Aside from "../packages/components/Container/ZAside.vue"
 import Zmain from "../packages/components/Container/ZMain.vue"
 import ZFooter from "../packages/components/Container/ZFooter.vue"
 import ZTag from "../packages/components/Tag/ZTag.vue";
-import Row from "../packages/components/Layout/ZRow.vue"
-import Col from '../packages/components/Layout/ZCol.vue'
 import Row from "../packages/components/Layout/ZRow.vue"
 import Col from '../packages/components/Layout/ZCol.vue'
 
