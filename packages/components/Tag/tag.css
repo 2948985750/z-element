@@ -49,3 +49,15 @@
   @apply mx-2 px-3 h-10 leading-10 text-lg;
 }
 
+.closable{
+  @apply align-middle pl-1;
+  color: v-bind('props.backgroundColor');
+  width: v-bind('props.fontSize');
+  height: v-bind('props.fontSize');
+  > svg{
+    @apply inline-block;
+    width: inherit;
+    height: inherit;
+  }
+}
+

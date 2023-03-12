@@ -7,18 +7,17 @@
     >
       <slot></slot>
       <template v-if="props.closable">
-        <i :class="[closeable]"><Close @click="destroyComponent"/></i>
+        <i :class="[closeable ? $style[closeable]: '']"><XCircleIcon @click="destroyComponent"/></i>
       </template>
   </span>
 </template>
 
 <script setup lang="ts">
+
 import { ref, computed  } from 'vue'
 import { TagProps } from './tag'
 import { nameSpace } from '../../utils/bem';
-import {
-  Close
-} from '@element-plus/icons-vue'
+import { XCircleIcon } from '@heroicons/vue/24/solid'
 
 const shouldDestroy  = ref(false)
 /** 样式传参
@@ -39,8 +38,7 @@ const defStyle = ( style:any, ...classes: Array<string>) => {
  */
 const round = () => (props.round ? 'round' : '')
 const disable = computed(() => props.disabled ? 'disabled' : '')
-const closeable = computed(() => props.closable ? 'closable' : '')
-
+const closeable = computed(() => props.closable ? 'closable' : false)
 /** 事件
  * destroyComponent 关闭并销毁组件，传递组件中的文本内容
  */
@@ -59,7 +57,7 @@ const destroyComponent = () => {
 
 <style scoped lang="postcss">
 .round{
-  border-radius: theme(borderRadius.md);
+  border-radius: theme(borderRadius.lg);
 }
 
 .disabled{
@@ -67,14 +65,4 @@ const destroyComponent = () => {
   cursor: not-allowed;
 }
 
-.closable{
-  @apply align-middle pl-1;
-  width: theme(textIndent[3.5]);
-  height: theme(textIndent[3.5]);
-  > svg{
-    @apply inline-block;
-    width: inherit;
-    height: inherit;
-  }
-}
 </style>

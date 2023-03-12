@@ -24,9 +24,9 @@
   </Container>
   <ZTag round>标签</ZTag>
   <ZTag type="warning">标签</ZTag>
-  <ZTag size="medium" type="error" round>标签</ZTag>
-  <ZTag size="large" type="processing">标签</ZTag>
-  <ZTag type="success" disabled>标签</ZTag>
+  <ZTag size="medium" type="error" round closable>标签</ZTag>
+  <ZTag size="large" type="processing" closable>标签</ZTag>
+  <ZTag type="success" disabled >标签</ZTag>
   <ZTag size="large" type="success" closable>标签</ZTag>
   <Row :space="20">
     <Col :span="12" :md="4" :lg="4" style="border: 1px solid red">123</Col>
