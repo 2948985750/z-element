@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { it, expect } from 'vitest';
 import { h } from 'vue';
-import Icon from '../ZIcon.vue';
+import Icon from '../icon.vue';
 import { Check } from '@element-plus/icons-vue';
 it('icon mount', async () => {
   const dom = mount(Icon, {

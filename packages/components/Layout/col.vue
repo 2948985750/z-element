@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { ColProps } from './ZCol'
+import { ColProps } from './col'
 const props = defineProps(ColProps)
 const style = reactive({
     xl: props.xl ?? props.span,
@@ -20,16 +20,14 @@ console.log(props.xl);
 </script>
 
 <style module lang="postcss">
-:root {}
-
 .z-col {
     --percentage: calc(100% / 24);
     flex-basis: 0;
     flex-grow: 0;
     flex-basis: calc(var(--percentage) * v-bind('props.span'));
-
 }
 
+/* @media (theme('screens.xs')) {} */
 
 @media (max-width: 767px) {
     .z-col {
@@ -61,34 +59,4 @@ console.log(props.xl);
         flex-basis: calc(var(--percentage) * v-bind("style.xs"))
     }
 }
-
-/* .xs {
-    @apply xs: {
-        flex: 1 1 0;
-    }
-}
-
-.sm {
-    @apply sm: {
-        flex-basis: calc(var(--percentage) * v-bind('props.sm'))
-    }
-}
-
-.md {
-    @apply md: {
-        flex-basis: calc(var(--percentage) * v-bind('props.md'))
-    }
-}
-
-.lg {
-    @apply lg: {
-        flex-basis: calc(var(--percentage) * v-bind('props.lg'))
-    }
-}
-
-.xl {
-    @apply xl: {
-        flex-basis: calc(var(--percentage) * v-bind('props.xl'))
-    }
-} */
 </style>

@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { it, expect } from 'vitest';
-import ZHeader from '../ZHeader.vue';
+import ZHeader from '../header.vue';
 import { nextTick } from 'vue';
 
 it('header mount', async () => {

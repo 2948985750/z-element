@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 
-import { RowProps } from './ZRow';
+import { RowProps } from './row';
 import { nameSpace } from '../../utils/bem';
 
 const block = nameSpace();

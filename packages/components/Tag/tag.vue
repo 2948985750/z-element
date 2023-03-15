@@ -1,33 +1,31 @@
 <template>
-  <span
-    v-if="!shouldDestroy"
-    ref="target"
-    :class="[ $style[defTagClass], round, disable,
-    defStyle($style, `${props.size}`, `${props.styleType}`, `${props.type}`)]"
-    >
-      <slot></slot>
-      <template v-if="props.closable">
-        <i :class="[closeable ? $style[closeable]: '']"><XCircleIcon @click="destroyComponent"/></i>
-      </template>
+  <span v-if="!shouldDestroy" ref="target" :class="[$style[defTagClass], round, disable,
+  defStyle($style, `${props.size}`, `${props.styleType}`, `${props.type}`, 'closable')]">
+    <slot></slot>
+    <template v-if="props.closable">
+      <i :class="[closeable ? $style[closeable] : '']">
+        <XCircleIcon @click="destroyComponent" />
+      </i>
+    </template>
   </span>
 </template>
 
 <script setup lang="ts">
 
-import { ref, computed  } from 'vue'
+import { ref, computed } from 'vue'
 import { TagProps } from './tag'
 import { nameSpace } from '../../utils/bem';
 import { XCircleIcon } from '@heroicons/vue/24/solid'
 
-const shouldDestroy  = ref(false)
+const shouldDestroy = ref(false)
 /** 样式传参
  */
 const props = defineProps(TagProps)
 const block = nameSpace()
 const defTagClass = 'z-tag'
-const defStyle = ( style:any, ...classes: Array<string>) => {
+const defStyle = (style: any, ...classes: Array<string>) => {
   const contactArr = (...ss: Array<string>) => {
-    return ss.map((s: string) => block.element( defTagClass, s))
+    return ss.map((s: string) => block.element(defTagClass, s))
   }
   return contactArr(...classes).map(Class => style[`${Class}`])
 }
@@ -49,20 +47,33 @@ const destroyComponent = () => {
   shouldDestroy.value = true
 }
 
+console.log(props.bg);
 </script>
 
 <style module lang="postcss">
 @import "./tag.css";
+
+.closable {
+  @apply align-middle pl-1;
+  background-color: v-bind('props.bg');
+  width: v-bind('props.fontSize');
+  height: v-bind('props.fontSize');
+
+  >svg {
+    @apply inline-block;
+    width: inherit;
+    height: inherit;
+  }
+}
 </style>
 
 <style scoped lang="postcss">
-.round{
+.round {
   border-radius: theme(borderRadius.lg);
 }
 
-.disabled{
+.disabled {
   @apply border border-solid border-gray-100 bg-gray-50 text-gray-300;
   cursor: not-allowed;
 }
-
 </style>

@@ -16,8 +16,8 @@
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^2.1.0",
     "@heroicons/vue": "^2.0.16",
+    "async-validator": "^4.2.5",
     "vue": "^3.2.45"
   },
   "devDependencies": {

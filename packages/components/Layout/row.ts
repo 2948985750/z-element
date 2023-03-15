@@ -1,7 +1,6 @@
 import { PropType } from 'vue';
 
 interface RowProps_ {
-  space?: number;
   justify?: 'start' | 'end' | 'center' | 'space-around' | 'space-between' | 'space-evenly';
   align?: 'top' | 'center' | 'bottom';
 }

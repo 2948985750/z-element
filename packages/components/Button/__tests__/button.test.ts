@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { expect, test } from 'vitest';
-import Button from '../ZButton.vue';
+import Button from '../button.vue';
 
 test('mount component', async () => {
   const wrapper = mount(Button, {

@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { it, expect } from 'vitest';
-import ZContainer from '../ZContainer.vue';
-import ZHeader from '../ZHeader.vue';
+import ZContainer from '../container.vue';
+import ZHeader from '../header.vue';
 import { h } from 'vue';
 
 it('ZContainer mount', async () => {

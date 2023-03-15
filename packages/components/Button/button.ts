@@ -2,7 +2,7 @@ import type { Component } from 'vue';
 import { PropType } from 'vue';
 
 interface ButtonProp {
-  type?: 'primary' | 'success' | 'info' | 'wraning' | 'danger' | 'plain' | 'text';
+  type?: 'primary' | 'success' | 'info' | 'warning' | 'danger' | 'plain' | 'text';
   size?: 'default' | 'small' | 'large';
   action?: 'button' | 'submit' | 'reset';
   icon?: Component | undefined;

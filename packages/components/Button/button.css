@@ -1,12 +1,13 @@
 .z-button {
-  @apply flex  box-border items-center h-8 leading-none text-center align-middle rounded border;
+  @apply flex box-border items-center h-8 leading-none text-center align-middle rounded border justify-center border-info_light_7;
   padding: 0.4rem 0.5rem;
   cursor: pointer;
   outline: none;
   appearance: none;
+  use-select: none;
   transition: background-color 0.2s;
   > .z-button-slot {
-    @apply align-middle w-4;
+    @apply align-middle w-4 h-4;
   }
 }
 
@@ -27,36 +28,43 @@
 }
 
 .z-button--primary {
-  @apply bg-indigo-500 text-white;
+  @apply bg-primary text-white border-primary;
   &:hover {
-    @apply bg-blue-900 text-white;
+    @apply bg-primary_light_3 text-white;
   }
 }
 
 .z-button--plain {
-  @apply bg-transparent text-zinc-900 border-gray-400 bg-clip-padding;
+  @apply bg-transparent text-zinc-900 border-info_light_3;
   &:hover {
     @apply bg-blue-500 text-white;
   }
 }
 
 .z-button--success {
-  @apply bg-green-500 text-white;
+  @apply bg-success text-white border-success_light_3;
   &:hover {
-    @apply bg-green-300;
+    @apply bg-success_light_3;
   }
 }
 
 .z-button--info {
-  @apply bg-gray-500 text-white;
+  @apply bg-info text-white border-info;
   &:hover {
-    @apply bg-gray-300;
+    @apply bg-info_light_3;
   }
 }
 
 .z-button--warning {
-  @apply bg-amber-500 text-white;
+  @apply bg-wraning text-white border-wraning;
   &:hover {
-    @apply bg-amber-300;
+    @apply bg-wraning_light_3;
+  }
+}
+
+.z-button--danger {
+  @apply bg-danger text-white border-danger;
+  &:hover {
+    @apply bg-danger_light_3;
   }
 }
