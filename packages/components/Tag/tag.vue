@@ -1,8 +1,10 @@
 <template>
   <span ref="target" v-if="!shouldDestroy" :class="[$style[defTagClass], round, disable,
   defStyle($style, `${props.size}`, `${props.styleType}`, `${props.type}`)]">
-    <span :class="[defStyle($style, `preIcon`), 'pre-icon']">
-      <slot name="Icon"></slot>
+    <span v-show="slot || props.slot" :class="[defStyle($style, `preIcon`), 'pre-icon']">
+      <i>
+        <slot name="Icon"></slot>
+      </i>
     </span>
     <slot></slot>
     <template v-if="props.closable">
@@ -15,7 +17,7 @@
 
 <script setup lang="ts">
 
-import { ref, computed, watch, onMounted, Ref } from 'vue'
+import { ref, computed, onMounted, useSlots, Ref } from 'vue'
 import { TagProps } from './tag'
 import { nameSpace } from '../../utils/bem';
 import { XCircleIcon } from '@heroicons/vue/24/solid'
@@ -61,13 +63,17 @@ const destroyComponent = () => {
 }
 
 /** slots 处理
- * 监听 icon 元素
+ * 1. 从组件内部添加 icon 图标
+ * 2. 在标签名中声明图标
  */
-const iconSlot = computed(() => document.querySelector('span.pre-icon'))
 
-onMounted(() => {
-  console.log(iconSlot.value?.innerHTML);
-});
+const slot = computed(() => {
+  if (useSlots()['Icon'] instanceof Function) {
+    return true
+  } else {
+    return false
+  }
+})
 </script>
 
 <style module lang="postcss">

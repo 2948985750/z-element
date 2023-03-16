@@ -51,9 +51,11 @@
 
 /* icon的兼容性处理 */
 .z-tag--preIcon{
-  @apply align-top inline-block;
-  > i{
+  @apply align-top inline-block w-6 h-6;
+   > i{
     @apply align-middle inline-block relative;
+    width: inherit;
+    height: inherit;
     > svg{
       @apply absolute;
       top: 50%;
