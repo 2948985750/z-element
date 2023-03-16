@@ -1,14 +1,17 @@
 <template>
-  <span ref="target" v-if="!shouldDestroy" :class="[$style[defTagClass], round, disable,
-  defStyle($style, `${props.size}`, `${props.styleType}`, `${props.type}`)]">
-    <span v-show="slot || props.slot" :class="[defStyle($style, `preIcon`), 'pre-icon']">
-      <i>
+  <span ref="target" v-if="!shouldDestroy" :class="[
+    $style[defTagClass],
+    block.is('round', props.round),
+    block.is('disabled', props.disabled),
+    defStyle($style, `${props.size}`, `${props.styleType}`, `${props.type}`)]">
+    <span v-show="IconSlot || props.slot" :class="[defStyle($style, `preIcon`), 'pre-icon']">
+      <z-icon>
         <slot name="Icon"></slot>
-      </i>
+      </z-icon>
     </span>
     <slot></slot>
     <template v-if="props.closable">
-      <i :class="[closeable]">
+      <i :class="[block.is('closable', props.closable)]">
         <XCircleIcon @click="destroyComponent()" />
       </i>
     </template>
@@ -16,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import ZIcon from '../Icon/icon.vue'
 
 import { ref, computed, onMounted, useSlots, Ref } from 'vue'
 import { TagProps } from './tag'
@@ -44,15 +48,6 @@ const theme = computed(() => {
     return undefined
 })
 
-
-/** round 和 disable处理 (样式定制)
- * round 圆形化
- * disable 是否禁用
- */
-const round = () => (props.round ? 'round' : '')
-const disable = computed(() => props.disabled ? 'disabled' : '')
-const closeable = computed(() => props.closable ? 'closable' : '')
-
 /** closable 处理
  * destroyComponent 关闭并销毁组件，传递组件中的文本内容
  */
@@ -66,9 +61,9 @@ const destroyComponent = () => {
  * 1. 从组件内部添加 icon 图标
  * 2. 在标签名中声明图标
  */
-
-const slot = computed(() => {
-  if (useSlots()['Icon'] instanceof Function) {
+const slot = useSlots()
+const IconSlot = computed(() => {
+  if (slot['Icon'] instanceof Function) {
     return true
   } else {
     return false
