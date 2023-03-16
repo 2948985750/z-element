@@ -1,10 +1,13 @@
 <template>
-  <span v-if="!shouldDestroy" ref="target" :class="[$style[defTagClass], round, disable,
-  defStyle($style, `${props.size}`, `${props.styleType}`, `${props.type}`, 'closable')]">
+  <span ref="target" v-if="!shouldDestroy" :class="[$style[defTagClass], round, disable,
+  defStyle($style, `${props.size}`, `${props.styleType}`, `${props.type}`)]">
+    <span :class="[defStyle($style, `preIcon`), 'pre-icon']">
+      <slot name="Icon"></slot>
+    </span>
     <slot></slot>
     <template v-if="props.closable">
-      <i :class="[closeable ? $style[closeable] : '']">
-        <XCircleIcon @click="destroyComponent" />
+      <i :class="[closeable]">
+        <XCircleIcon @click="destroyComponent()" />
       </i>
     </template>
   </span>
@@ -12,11 +15,12 @@
 
 <script setup lang="ts">
 
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted, Ref } from 'vue'
 import { TagProps } from './tag'
 import { nameSpace } from '../../utils/bem';
 import { XCircleIcon } from '@heroicons/vue/24/solid'
 
+const target: Ref<HTMLElement> | Ref<null> = ref(null);
 const shouldDestroy = ref(false)
 /** 样式传参
  */
@@ -30,50 +34,74 @@ const defStyle = (style: any, ...classes: Array<string>) => {
   return contactArr(...classes).map(Class => style[`${Class}`])
 }
 
-/** 样式定制
+// dom渲染后获取组件的样式
+const theme = computed(() => {
+  if (target.value !== null)
+    return window.getComputedStyle(target.value, null)
+  else
+    return undefined
+})
+
+
+/** round 和 disable处理 (样式定制)
  * round 圆形化
  * disable 是否禁用
  */
 const round = () => (props.round ? 'round' : '')
 const disable = computed(() => props.disabled ? 'disabled' : '')
-const closeable = computed(() => props.closable ? 'closable' : false)
-/** 事件
+const closeable = computed(() => props.closable ? 'closable' : '')
+
+/** closable 处理
  * destroyComponent 关闭并销毁组件，传递组件中的文本内容
  */
-const target = ref(null)
 const emits = defineEmits(['close'])
 const destroyComponent = () => {
   emits('close', target.value?.innerText)
   shouldDestroy.value = true
 }
 
-console.log(props.bg);
+/** slots 处理
+ * 监听 icon 元素
+ */
+const iconSlot = computed(() => document.querySelector('span.pre-icon'))
+
+onMounted(() => {
+  console.log(iconSlot.value?.innerHTML);
+});
 </script>
 
 <style module lang="postcss">
 @import "./tag.css";
-
-.closable {
-  @apply align-middle pl-1;
-  background-color: v-bind('props.bg');
-  width: v-bind('props.fontSize');
-  height: v-bind('props.fontSize');
-
-  >svg {
-    @apply inline-block;
-    width: inherit;
-    height: inherit;
-  }
-}
 </style>
 
 <style scoped lang="postcss">
 .round {
-  border-radius: theme(borderRadius.lg);
+  @apply rounded-lg;
 }
 
 .disabled {
   @apply border border-solid border-gray-100 bg-gray-50 text-gray-300;
   cursor: not-allowed;
+}
+
+.closable {
+  @apply align-middle pl-1 inline-block relative;
+  color: v-bind('theme?.backgroundColor');
+  width: v-bind('theme?.fontSize');
+  height: v-bind('theme?.fontSize');
+
+  >svg {
+    @apply inline-block absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: inherit;
+    height: inherit;
+    stroke: v-bind('theme?.color');
+
+    &:hover {
+      fill: v-bind('theme?.color');
+      stroke: none;
+    }
+  }
 }
 </style>
