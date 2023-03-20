@@ -1,10 +1,15 @@
 <template>
-  <span ref="target" v-if="!shouldDestroy" :class="[
-    $style[defTagClass],
-    block.is('round', props.round),
-    block.is('disabled', props.disabled),
-    defStyle($style, `${props.size}`, `${props.styleType}`, `${props.type}`)]">
-    <span v-show="IconSlot || props.slot" :class="[defStyle($style, `preIcon`), 'pre-icon']">
+  <span
+    ref="target"
+    v-if="!shouldDestroy"
+    :class="[
+      $style[defTagClass],
+      block.is('round', props.round),
+      block.is('disabled', props.disabled),
+      defClass($style, `${props.size}`, `${props.styleType}`, `${props.type}`),
+    ]"
+  >
+    <span v-show="IconSlot || props.slot" :class="[defClass($style, `preIcon`), 'pre-icon']">
       <z-icon>
         <slot name="Icon"></slot>
       </z-icon>
@@ -19,60 +24,60 @@
 </template>
 
 <script setup lang="ts">
-import ZIcon from '../Icon/icon.vue'
+import ZIcon from '../Icon/icon.vue';
 
-import { ref, computed, onMounted, useSlots, Ref } from 'vue'
-import { TagProps } from './tag'
-import { nameSpace } from '../../utils/bem';
-import { XCircleIcon } from '@heroicons/vue/24/solid'
+import { ref, computed, onMounted, useSlots, Ref } from 'vue';
+import { TagProps } from './tag';
+import { nameSpace, contactClass } from '../../utils/bem';
+import { XCircleIcon } from '@heroicons/vue/24/solid';
 
 const target: Ref<HTMLElement> | Ref<null> = ref(null);
-const shouldDestroy = ref(false)
-/** 样式传参
- */
-const props = defineProps(TagProps)
-const block = nameSpace()
-const defTagClass = 'z-tag'
-const defStyle = (style: any, ...classes: Array<string>) => {
-  const contactArr = (...ss: Array<string>) => {
-    return ss.map((s: string) => block.element(defTagClass, s))
-  }
-  return contactArr(...classes).map(Class => style[`${Class}`])
-}
+const shouldDestroy = ref(false);
+
+// 样式传参
+const props = defineProps(TagProps);
+const block = nameSpace();
+const defTagClass = 'z-tag';
+const defClass = (hashStyle: any, ...classes: string[]) => {
+  return contactClass(defTagClass, ...classes).map((Class) => hashStyle[`${Class}`]);
+};
 
 // dom渲染后获取组件的样式
 const theme = computed(() => {
-  if (target.value !== null)
-    return window.getComputedStyle(target.value, null)
-  else
-    return undefined
-})
+  const element: Element | null = target!.value ?? null;
+  if (element === null) {
+    return undefined;
+  } else {
+    return window.getComputedStyle(element, null);
+  }
+});
 
 /** closable 处理
  * destroyComponent 关闭并销毁组件，传递组件中的文本内容
  */
-const emits = defineEmits(['close'])
+const emits = defineEmits(['close']);
 const destroyComponent = () => {
-  emits('close', target.value?.innerText)
-  shouldDestroy.value = true
-}
+  const element = target.value;
+  emits('close', element?.innerText ?? null);
+  shouldDestroy.value = true;
+};
 
 /** slots 处理
  * 1. 从组件内部添加 icon 图标
  * 2. 在标签名中声明图标
  */
-const slot = useSlots()
+const slot = useSlots();
 const IconSlot = computed(() => {
   if (slot['Icon'] instanceof Function) {
-    return true
+    return true;
   } else {
-    return false
+    return false;
   }
-})
+});
 </script>
 
 <style module lang="postcss">
-@import "./tag.css";
+@import './tag.css';
 </style>
 
 <style scoped lang="postcss">
@@ -91,7 +96,7 @@ const IconSlot = computed(() => {
   width: v-bind('theme?.fontSize');
   height: v-bind('theme?.fontSize');
 
-  >svg {
+  > svg {
     @apply inline-block absolute;
     top: 50%;
     transform: translateY(-50%);
