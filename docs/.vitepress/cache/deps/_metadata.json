@@ -1,0 +1,38 @@
+{
+  "hash": "5ea51ef5",
+  "browserHash": "c7bcf34d",
+  "optimized": {
+    "vue": {
+      "src": "../../../../node_modules/.pnpm/registry.npmmirror.com+vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "26f07d6a",
+      "needsInterop": false
+    },
+    "@theme/index": {
+      "src": "../../../../node_modules/.pnpm/registry.npmmirror.com+vitepress@1.0.0-alpha.49_@types+node@18.16.0/node_modules/vitepress/dist/client/theme-default/index.js",
+      "file": "@theme_index.js",
+      "fileHash": "09e58550",
+      "needsInterop": false
+    },
+    "lodash": {
+      "src": "../../../../node_modules/.pnpm/registry.npmmirror.com+lodash@4.17.21/node_modules/lodash/lodash.js",
+      "file": "lodash.js",
+      "fileHash": "e38f50e4",
+      "needsInterop": true
+    },
+    "@heroicons/vue/24/solid": {
+      "src": "../../../../node_modules/.pnpm/registry.npmmirror.com+@heroicons+vue@2.0.17_vue@3.2.47/node_modules/@heroicons/vue/24/solid/index.js",
+      "file": "@heroicons_vue_24_solid.js",
+      "fileHash": "e9df823d",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-5S2AAF5I": {
+      "file": "chunk-5S2AAF5I.js"
+    },
+    "chunk-OL3AADLO": {
+      "file": "chunk-OL3AADLO.js"
+    }
+  }
+}

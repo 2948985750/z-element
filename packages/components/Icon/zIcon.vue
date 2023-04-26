@@ -1,0 +1,30 @@
+<template>
+  <i :class="$style['z-icon']" :style="style">
+    <slot></slot>
+  </i>
+</template>
+
+<script lang="ts" setup>
+import { useSlots, computed } from 'vue';
+import { nameSpace } from '../../utils/bem';
+import { IconProps } from './icon';
+
+const props = defineProps(IconProps);
+const slots = useSlots();
+const style = computed(() => ({
+  fontSize: props.size ?? 'inherit',
+  color: props.color ?? 'inherit',
+}));
+</script>
+
+<style module lang="postcss">
+.z-icon {
+  @apply w-5 h-full flex items-center;
+
+  > svg {
+    width: inherit;
+    height: inherit;
+    font-size: inherit;
+  }
+}
+</style>

@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
+    "jsx": "preserve",
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
     "moduleResolution": "Node",
     "strict": true,
-    "jsx": "preserve",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -13,11 +13,16 @@
     "skipLibCheck": true,
     "declaration": true /* 生成相关的 '.d.ts' 文件，这个选项会导致报错：模块的默认导出具有或正在使用专用名称xxx */,
     "declarationDir": "./dist/types",
+    /* '.d.ts' 文件输出目录 */
     "emitDeclarationOnly": true,
     "allowSyntheticDefaultImports": true
-    /* '.d.ts' 文件输出目录 */
+    // "paths": {
+    //   "vite": ["./node_modules/vite/dist/node"],
+    //   "postcss-extend-rule": ["./node_modules/postcss-extend-rule/dist"]
+    // }
   },
-  "include": ["packages/**/*.ts", "packages/**/*.vue"],
-  "exclude": ["node_modules", "dist", "packages/**/__tests__", "vue.d.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["node_modules", "dist"],
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "esModuleInterop": true,
+  "allowSyntheticDefaultImports": "true"
 }

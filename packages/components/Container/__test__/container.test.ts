@@ -1,37 +1,55 @@
-import { mount } from '@vue/test-utils';
-import { it, expect } from 'vitest';
-import ZContainer from '../container.vue';
-import ZHeader from '../header.vue';
-import { h } from 'vue';
+import { mount, shallowMount } from '@vue/test-utils';
+import { it, expect, describe } from 'vitest';
+import zContainer from '../zContainer.vue';
+import zHeader from '../zHeader.vue';
+import { h, ref, nextTick } from 'vue';
 
-it('ZContainer mount', async () => {
-  const dom = mount(ZContainer, {
-    slots: {
-      default: 'container',
-    },
+describe('container', () => {
+  it('z-container mount', async () => {
+    const dom = mount(zContainer, {
+      slots: {
+        default: 'container',
+      },
+    });
+    expect(dom.classes()).toMatch(/_z-container_\w/);
+    expect(dom.text()).toBe('container');
   });
-  expect(dom.classes().join()).toMatch(/_z-container_/);
-  expect(dom.text()).toBe('container');
-});
 
-it('ZContainer direction prop', async () => {
-  const prop_val_row = mount(ZContainer, {
-    props: {
+  it('z-container direction prop', async () => {
+    const wrapper = mount(zContainer, {
+      props: {
+        direction: 'row',
+      },
+    });
+
+    const beforeChange = wrapper.classes();
+    expect(beforeChange).toMatch(/_z-container_./);
+
+    await wrapper.setProps({
       direction: 'column',
-    },
+    });
+    expect(wrapper.classes()).toMatch(/_z-column_/);
   });
-
-  const classes = prop_val_row.classes();
-  expect(classes.join()).toMatch(/_z-column_/);
 });
 
-it('ZContainer child', async () => {
-  const dom = mount(ZContainer, {
-    slots: {
-      default: h(ZHeader, null, 'header'),
-    },
+describe('zHeader create', () => {
+  it('header create', async () => {
+    const wrapper = shallowMount(zHeader, {
+      slots: {
+        default: 'header text',
+      },
+    });
+
+    expect(wrapper.classes()).toMatch(/_z-header_./);
+    expect(wrapper.text()).toBe('header text');
   });
 
-  const classes = dom.classes();
-  expect(classes.join()).toMatch(/_z-container_|_z-column_./);
+  it('header hight prop', async () => {
+    const wrapper = mount(zHeader, {
+      props: {
+        height: '90px',
+      },
+    });
+    expect(wrapper.props('height')).toBe('90px');
+  });
 });

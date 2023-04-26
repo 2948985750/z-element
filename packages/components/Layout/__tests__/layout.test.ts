@@ -1,19 +1,31 @@
-import { h } from 'vue';
-import { it, expect } from 'vitest';
+import { describe, expect, it, test } from 'vitest';
 import { mount } from '@vue/test-utils';
-import Row from '../row.vue';
-import Col from '../col.vue';
+import { zRow, zCol } from '../index';
+import { getStyle } from '../../../../test-util/util';
 
-it('layout mount', async () => {
-  const wrapper = await mount(Row, {
-    slots: {
-      default: h(Col, {
-        slots: {
-          default: 'col',
-        },
-      }),
-    },
+describe('Row.vue', () => {
+  test('row create', async () => {
+    const wrapper = mount(zRow, {
+      slots: {
+        default: 'row',
+      },
+    });
+    expect(wrapper.classes()).toContain('_z-row_104b93');
+    expect(wrapper.text()).toContain('row');
   });
 
-  console.log(getComputedStyle(wrapper.element));
+  test('space', async () => {
+    const wrapper = mount(zRow, {
+      props: {
+        space: '20px',
+      },
+      slots: {
+        default: mount(zCol, {
+          slots: {
+            default: 'col',
+          },
+        }),
+      },
+    });
+  });
 });

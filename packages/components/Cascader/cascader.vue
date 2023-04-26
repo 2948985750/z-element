@@ -1,5 +1,5 @@
 <template>
-    <div :class="[$style]">
+    <div :class="[]">
 
     </div>
 </template>

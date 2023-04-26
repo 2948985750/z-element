@@ -1,5 +1,3 @@
 export * from './button';
-import ZButton from './button.vue';
-
-export { ZButton };
-export default ZButton;
+import zButton from './zbutton.vue';
+export default zButton;

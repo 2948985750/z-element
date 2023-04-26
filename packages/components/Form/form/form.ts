@@ -1,32 +1,50 @@
 import { PropType, ExtractPropTypes } from 'vue';
-import type { Rule } from 'async-validator';
+import type { RuleItem } from 'async-validator';
 import type { ComponentSize } from '../../types-util/size';
+import type { Arrayable } from 'vitest';
+import type { ValidateFieldsError } from 'async-validator';
 
-/**
- * 校验结构：数据源，规则，校验触发时机
- * 校验范围：所有表单控件
- * 校验结果：所有表单组件应包含一个错误信息容器
- * 校验
- */
-type Rule_ = Rule & {
-  trigger: 'blur' | 'change';
+export type Trigger = 'blur' | 'change' | 'focus' | 'reset' | 'input';
+
+export type Rule = RuleItem & {
+  trigger: Arrayable<Trigger>;
 };
-export interface FormProps_ {
-  model: Record<string, any>;
-  rules: Record<string, Rule_> | Rule;
-  size: ComponentSize;
-}
 
 export const FormProps = {
-  labelWidth: String,
-  model: Object as PropType<FormProps_['model']>,
-  rules: Object as PropType<FormProps_['rules']>,
-  size: String as PropType<FormProps_['size']>,
+  labelWidth: String || Number,
+  model: Object as PropType<Record<string, any>>,
+  size: {
+    type: String as PropType<ComponentSize>,
+    default: 'default',
+  },
+  scrollToError: {
+    type: Boolean,
+    default: false,
+  },
+  inline: {
+    type: Boolean,
+    default: false,
+  },
+  ruleChangeValidate: {
+    type: Boolean,
+    default: true,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  inlineMessage: {
+    type: Boolean,
+    default: false,
+  },
+  rules: Object as PropType<Record<string, Arrayable<Rule>>>,
 };
 
 export const FormEmits = {
-  validate() {},
+  validate: (prop: string, isValid: boolean, message: string): void => void 0,
 };
 
 export type FormProps = ExtractPropTypes<typeof FormProps>;
-export type FormEmits = typeof FormEmits;
+export type FormEmits = ExtractPropTypes<typeof FormEmits>;
+
+export type FormValidateCallback = (isValid: boolean, invalidFields?: ValidateFieldsError) => void;

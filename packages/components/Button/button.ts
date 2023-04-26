@@ -1,11 +1,11 @@
-import type { Component } from 'vue';
+import type { Component, ExtractPropTypes } from 'vue';
 import { PropType } from 'vue';
 
 interface ButtonProp {
   type?: 'primary' | 'success' | 'info' | 'warning' | 'danger' | 'plain' | 'text';
   size?: 'default' | 'small' | 'large';
-  action?: 'button' | 'submit' | 'reset';
   icon?: Component | undefined;
+  nativeType?: 'button' | 'submit' | 'reset';
   // disabled?: boolean;
   // plain?: boolean;
   // round?: boolean;
@@ -16,8 +16,11 @@ interface ButtonProp {
 
 export const ButtonProps = {
   type: { type: String as PropType<ButtonProp['type']>, default: 'primary' },
+  nativeType: {
+    type: String as PropType<ButtonProp['nativeType']>,
+    default: 'button',
+  },
   size: { type: String as PropType<ButtonProp['size']>, default: 'default' },
-  action: { type: String as PropType<ButtonProp['action']>, default: 'button' },
   icon: { type: Object as PropType<ButtonProp['icon']>, default: void 0 },
   loadingIcon: { type: Object as PropType<ButtonProp['icon']>, default: void 0 },
   color: String,
@@ -28,3 +31,5 @@ export const ButtonProps = {
   bg: { type: Boolean, default: true },
   loading: { type: Boolean, default: false },
 };
+
+export type ButtonProps = ExtractPropTypes<typeof ButtonProps>;

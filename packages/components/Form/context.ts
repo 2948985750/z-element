@@ -1,40 +1,42 @@
 import type { SetupContext } from 'vue';
 import type { Arrayable } from '../types-util/type-util';
-import type { RuleItem, Rule, ValidateError, ValidateFieldsError } from 'async-validator';
-import type { ComponentSize } from '../types-util/size';
+import type { ValidateError, ValidateFieldsError } from 'async-validator';
 import type { FormItemProps } from './form-item/form-item';
-import type { FormEmits, FormProps } from './form/form';
+import type { FormEmits, FormProps, Rule, Trigger } from './form/form';
+import type { validateState } from './form-item/form-item';
 
-export type FormRules = Partial<Record<string, Rule>>;
-
-export type FormValidationResult = Promise<boolean>;
 export type FormValidateCallback = (isValid: boolean, invalidFields?: ValidateFieldsError) => void;
 export interface FormValidateFailure {
   errors: ValidateError[] | null;
   fields: ValidateFieldsError;
 }
 
-export type FormContext = FormProps & {
+export interface FormContext extends FormProps {
   emit: SetupContext<FormEmits>['emit'];
-  // // expose
-  // addField: (field: FormItemContext) => void;
-  // removeField: (field: FormItemContext) => void;
-  // resetFields: (props?: Arrayable<any>) => void;
-  // clearValidate: (props?: Arrayable<any>) => void;
-  // validateField: (props?: Arrayable<any>, callback?: FormValidateCallback) => FormValidationResult;
-};
+  addField: (field: FormItemContext) => void;
+  removeField: (field: FormItemContext) => void;
+  resetFields: (props?: Arrayable<any>) => void;
+  clearValidate: (props?: Arrayable<any>) => void;
+  validateField: (props?: Arrayable<any>, callback?: FormValidateCallback) => Promise<boolean>;
+  getRule: (object: Record<string, Arrayable<Rule>> | Arrayable<Rule>, prop: string) => Rule[];
+  filterRule: (object: Rule[], trigger: string) => Rule[];
+}
 
 export interface FormItemContext extends FormItemProps {
-  $el: HTMLDivElement | undefined;
-  size: ComponentSize;
-  validateState: string;
-  isGroup: boolean;
-  labelId: string;
-  inputIds: string[];
-  hasLabel: boolean;
+  $el: HTMLDivElement;
+  validationState: validateState;
+  // isGroup: boolean;
+  // labelId: string;
+  // inputIds: string[];
+  // hasLabel: boolean;
   // addInputId: (id: string) => void;
   // removeInputId: (id: string) => void;
-  // validate: (trigger: string, callback?: FormValidateCallback) => FormValidationResult;
-  // resetField(): void;
-  // clearValidate(): void;
+  validate: (trigger: string, callback?: FormValidateCallback) => Promise<boolean>;
+  resetField(): void;
+  clearValidate(): void;
+}
+
+export interface FormValidateFailure {
+  errors: ValidateError[] | null;
+  fields: ValidateFieldsError;
 }

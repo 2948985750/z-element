@@ -1,29 +1,24 @@
 <template>
-    <div :class="[$style['z-row']]">
-        <slot></slot>
-    </div>
+  <div :class="[$style['z-row']]">
+    <slot></slot>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { onMounted, computed, provide, reactive, toRefs } from 'vue';
+import { rowProps, layoutInjectKey } from './row';
 
-import { RowProps } from './row';
-import { nameSpace } from '../../utils/bem';
-
-const block = nameSpace();
-const props = defineProps(RowProps);
-const space = props.space / 2 + 'px'
+const props = defineProps(rowProps);
+const ctx = reactive({
+  ...toRefs(props),
+});
+provide(layoutInjectKey, ctx);
 </script>
 
 <style module lang="postcss">
 .z-row {
-    @apply flex flex-wrap;
-    justify-content: v-bind('props.justify');
-    align-items: v-bind('props.align');
-
-    >* {
-        @apply box-border;
-        margin-left: v-bind('space');
-        margin-right: v-bind('space');
-    }
+  @apply flex flex-wrap box-border w-full;
+  justify-content: v-bind('props.justify');
+  align-items: v-bind('props.align');
 }
 </style>

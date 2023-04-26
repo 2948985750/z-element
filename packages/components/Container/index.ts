@@ -1,16 +1,15 @@
-export * from './Header';
-import ZContainer from './container.vue';
-import ZHeader from './header.vue';
-import ZAside from './aside.vue';
-import ZFooter from './footer.vue';
-import ZMain from './main.vue';
+import zContainer from './zContainer.vue';
+import zHeader from './zHeader.vue';
+import zAside from './zAside.vue';
+import zFooter from './zFooter.vue';
+import zMain from './zMain.vue';
 
-export { ZContainer, ZHeader, ZAside, ZFooter, ZMain };
+export { zContainer, zHeader, zAside, zFooter, zMain };
 
 export default {
-  ZContainer,
-  ZAside,
-  ZHeader,
-  ZMain,
-  ZFooter,
+  zContainer,
+  zAside,
+  zHeader,
+  zMain,
+  zFooter,
 };
