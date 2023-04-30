@@ -8,7 +8,10 @@
 import { reactive, inject, computed, onBeforeMount } from 'vue';
 import { ColProps, type MediaArg } from './col';
 import { layoutInjectKey } from './row';
-import { isNil, debounce, isFunction, isUndefined, isObject } from 'lodash';
+
+import _ from 'lodash';
+const isNil = _.isNil;
+const isObject = _.isObject;
 
 const props = defineProps(ColProps);
 const ctx = inject(layoutInjectKey);

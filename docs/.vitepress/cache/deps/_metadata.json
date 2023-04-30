@@ -1,29 +1,23 @@
 {
-  "hash": "3ef584f8",
-  "browserHash": "83b45791",
+  "hash": "ff38e0dc",
+  "browserHash": "5e4a8322",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/.pnpm/registry.npmmirror.com+vue@3.2.47/node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "c43cbf9e",
+      "fileHash": "06b7c8f2",
       "needsInterop": false
     },
     "@theme/index": {
       "src": "../../../../node_modules/.pnpm/registry.npmmirror.com+vitepress@1.0.0-alpha.49_@types+node@18.16.0/node_modules/vitepress/dist/client/theme-default/index.js",
       "file": "@theme_index.js",
-      "fileHash": "8bb18315",
+      "fileHash": "8f3e3ab5",
       "needsInterop": false
     },
     "@heroicons/vue/24/solid": {
       "src": "../../../../node_modules/.pnpm/registry.npmmirror.com+@heroicons+vue@2.0.17_vue@3.2.47/node_modules/@heroicons/vue/24/solid/index.js",
       "file": "@heroicons_vue_24_solid.js",
-      "fileHash": "8f0d7895",
-      "needsInterop": true
-    },
-    "lodash": {
-      "src": "../../../../node_modules/.pnpm/registry.npmmirror.com+lodash@4.17.21/node_modules/lodash/lodash.js",
-      "file": "lodash.js",
-      "fileHash": "b75d7158",
+      "fileHash": "5a3f4ad3",
       "needsInterop": true
     }
   },

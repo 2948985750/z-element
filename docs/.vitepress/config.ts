@@ -3,6 +3,7 @@
  */
 import { defineConfig } from 'vitepress';
 export default defineConfig({
+  base: '/z-ui-docs/',
   lang: 'zh-cn',
   title: 'z-ui',
   description: 'Vite & Vue powered static site generator.',
