@@ -6,7 +6,7 @@ import Icon from '../zIcon.vue';
 import { CakeIcon } from '@heroicons/vue/24/solid';
 import { getStyle } from '../../../../test-util/util';
 
-import { zRow, zCol } from './../../Layout/index';
+import { zRow, zCol } from '../../Layout/index';
 
 describe('icon.vue', () => {
   test('icon mount', async () => {

@@ -16,12 +16,8 @@
     /* '.d.ts' 文件输出目录 */
     "emitDeclarationOnly": true,
     "allowSyntheticDefaultImports": true
-    // "paths": {
-    //   "vite": ["./node_modules/vite/dist/node"],
-    //   "postcss-extend-rule": ["./node_modules/postcss-extend-rule/dist"]
-    // }
   },
-  "exclude": ["node_modules", "dist"],
+  "exclude": ["node_modules", "dist", "packages/**__test__/*"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "esModuleInterop": true,
   "allowSyntheticDefaultImports": "true"

@@ -89,6 +89,7 @@ import { debugWarn } from '../../utils/warn';
 import { AcademicCapIcon, XMarkIcon, EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/solid';
 import { isNil, isObject } from 'lodash';
 import { isKorean } from '../../utils/i18n';
+import { calcTextAreaStyle } from './util';
 
 const block = nameSpace();
 const slots = useSlots();
@@ -107,6 +108,7 @@ const isComposing = ref(false);
 const textareaStyle = reactive({
   resize: props.resize,
   height: '',
+  minHeight: '',
   overflowY: 'hidden',
 });
 
@@ -248,36 +250,6 @@ const select = () => {
   _ref.value?.select();
 };
 
-const calcTextAreaStyle = (textareaEle: HTMLTextAreaElement, minRows = 1, maxRows?: number) => {
-  const cssStyle = getComputedStyle(textareaEle);
-  const sizing = cssStyle.getPropertyValue('box-sizing');
-  const paddingSize =
-    parseInt(cssStyle.getPropertyValue('padding-top')) + parseInt(cssStyle.getPropertyValue('padding-bottom'));
-
-  const borderSize =
-    parseFloat(cssStyle.getPropertyValue('border-bottom-width')) +
-    parseFloat(cssStyle.getPropertyValue('border-top-width'));
-
-  const fontSize = parseFloat(cssStyle.getPropertyValue('font-size')) + 3;
-
-  let height = parseFloat(cssStyle.getPropertyValue('height'));
-
-  let maxHeight = fontSize * maxRows!;
-
-  if (sizing === 'border-box') {
-    maxHeight = borderSize + fontSize * maxRows!;
-  } else if (sizing === 'content-box') {
-    maxHeight = paddingSize + fontSize * maxRows!;
-  }
-  console.log(prevScrollHeight, textareaEle.scrollHeight, maxHeight);
-  if (textareaEle.scrollHeight > prevScrollHeight && textareaEle.scrollHeight <= maxHeight) {
-    prevScrollHeight = textareaEle.scrollHeight;
-    height = textareaEle.scrollHeight;
-  }
-  return {
-    height: height + 'px',
-  };
-};
 const resizeTextarea = () => {
   const { type, autosize } = props;
   if (type !== 'textarea' || !textarea.value) return;
@@ -285,7 +257,9 @@ const resizeTextarea = () => {
   if (autosize && isObject(autosize)) {
     const style = calcTextAreaStyle(textarea.value, autosize.minRows, autosize.maxRows);
     textareaStyle.height = style.height;
-    // nextTick
+    textareaStyle.minHeight = style.minHeight!;
+  } else {
+    textareaStyle.minHeight = calcTextAreaStyle(textarea.value).minHeight!;
   }
 };
 

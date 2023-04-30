@@ -1,9 +1,10 @@
 <template>
-  <z-input :autosize="{ minRows: 1, maxRows: 4 }" type="textarea" v-model="val" />
+  <z-input :autosize="{ minRows: 1, maxRows: 4 }" v-model="val" />
+  <p @click="fn">{{ refs.a }}</p>
 </template>
 
 <script setup lang="ts">
-import { inject, reactive, watchEffect, ref, computed } from 'vue';
+import { inject, reactive, watchEffect, ref, computed, nextTick } from 'vue';
 import zButton from '../packages/components/Button';
 import zC from '../packages/components/Cascader/cascader.vue';
 import { zForm, zFormItem } from '../packages/components/Form';
@@ -16,16 +17,26 @@ import zInput from '../packages/components/Input/index';
 import { zContainer, zHeader, zAside, zMain, zFooter } from '../packages/components/Container';
 import zLink from '../packages/components/Link/index';
 import { AcademicCapIcon, PencilSquareIcon, EyeIcon } from '@heroicons/vue/24/solid';
+import { watch } from 'fs';
 // import { AcademicCapIcon } from '@heroicons/vue/24/solid';
 const val = ref('');
 const space = ref('20px');
-const fn = () => {
-  space.value = '50px';
-};
+
 const n = ref('');
 watchEffect(() => {
   console.log(space.value);
 });
+
+let refs = reactive({
+  a: 1,
+});
+
+const fn = () => {
+  refs = reactive({
+    a: 2,
+  });
+};
+
 let a: any;
 </script>
 

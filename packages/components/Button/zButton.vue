@@ -59,7 +59,7 @@ const calcPadding = computed(() => {
 <style module lang="postcss">
 .z-button {
   @apply flex box-border items-center leading-none text-center align-middle;
-  @apply py-2 mx-1 rounded justify-center border-info border  border-solid;
+  @apply py-2 px-4 mx-1 rounded justify-center border-info border  border-solid;
   @apply outline-none appearance-none select-none transition-colors text-base;
   height: v-bind(calcHeight);
   padding-left: v-bind(calcPadding);

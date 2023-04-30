@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, test } from 'vitest';
-import Button from './zButton.vue';
+import Button from '../zButton.vue';
 
 describe('zButton.vue', () => {
   test('mount component', async () => {

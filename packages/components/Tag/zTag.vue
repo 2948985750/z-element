@@ -24,14 +24,14 @@
 </template>
 
 <script setup lang="ts">
-import ZIcon from '../Icon/icon.vue';
+import ZIcon from '../Icon/zIcon.vue';
 
 import { ref, computed, onMounted, useSlots, Ref } from 'vue';
 import { TagProps } from './tag';
 import { nameSpace, contactClass } from '../../utils/bem';
 import { XCircleIcon } from '@heroicons/vue/24/solid';
 
-const target: Ref<HTMLElement> | Ref<null> = ref(null);
+const target = ref();
 const shouldDestroy = ref(false);
 
 // 样式传参

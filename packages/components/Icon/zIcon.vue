@@ -19,12 +19,10 @@ const style = computed(() => ({
 
 <style module lang="postcss">
 .z-icon {
-  @apply w-5 h-full flex items-center;
-
+  @apply w-full h-full flex items-center;
   > svg {
-    width: inherit;
-    height: inherit;
-    font-size: inherit;
+    @apply w-full h-full;
+    font-size: 10px;
   }
 }
 </style>
