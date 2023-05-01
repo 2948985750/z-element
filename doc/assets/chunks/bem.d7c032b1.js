@@ -1,1 +1,0 @@
-function i(e){return e.map(r=>"--"+r).join("")}function f(){return{element(e,...r){const n=e,t=i(r);return n+t},modifier(...e){return i(e)},is(e,...r){let n=r.every(t=>t===!0);return r.length===0&&(n=!1),e&&n?e:""}}}export{f as n};
