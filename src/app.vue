@@ -1,6 +1,7 @@
 <template>
   <z-input :autosize="{ minRows: 1, maxRows: 4 }" v-model="val" />
   <p @click="fn">{{ refs.a }}</p>
+  <autodcomplete a="asdf" />
 </template>
 
 <script setup lang="ts">
@@ -18,6 +19,7 @@ import { zContainer, zHeader, zAside, zMain, zFooter } from '../packages/compone
 import zLink from '../packages/components/Link/index';
 import { AcademicCapIcon, PencilSquareIcon, EyeIcon } from '@heroicons/vue/24/solid';
 import { watch } from 'fs';
+import autodcomplete from '../packages/components/Autodcomplete';
 // import { AcademicCapIcon } from '@heroicons/vue/24/solid';
 const val = ref('');
 const space = ref('20px');

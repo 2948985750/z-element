@@ -17,7 +17,9 @@
     "docs:deploy": "gh-pages -d docs/.vitepress/dist"
   },
   "dependencies": {
+    "@floating-ui/vue": "^1.0.0",
     "@heroicons/vue": "^2.0.16",
+    "@vueuse/core": "^10.1.2",
     "async-validator": "^4.2.5",
     "lodash": "^4.17.21",
     "vue": "^3.2.45"

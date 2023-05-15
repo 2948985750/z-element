@@ -22,6 +22,9 @@
     <span :class="$style['z-button-defaultSlots']">
       <slot></slot>
     </span>
+    <span :class="$style['z-button-rightSlot']" v-if="slot.right">
+      <slot name="right"></slot>
+    </span>
   </button>
 </template>
 
@@ -34,6 +37,7 @@ import { componentSizeMap } from '../types-util/size';
 
 const props = defineProps(ButtonProps);
 const block = nameSpace();
+const slot = useSlots();
 const IconComponent = computed(() => (props.loadingIcon ? props.loadingIcon : ArrowPathIcon));
 const btnStyle = computed(() => {
   if (props.round) {
@@ -71,6 +75,10 @@ const calcPadding = computed(() => {
   > .z-button-defaultSlots {
     @apply flex items-center;
     order: 2;
+  }
+  > .z-button-rightSlot {
+    @apply h-full w-6;
+    order: 3;
   }
 }
 

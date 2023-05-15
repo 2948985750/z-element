@@ -32,6 +32,10 @@
     flex: 1 1 25%;
   }
 
+  .icon {
+    @apply w-5 h-5;
+  }
+
 </style>
 
 ## 基础用法
@@ -113,7 +117,7 @@
 
 <ClientOnly>
   <z-link :icon="PencilSquareIcon" type="default">link</z-link>
-  <z-link type="primary">link<z-icon><EyeIcon /></z-icon></z-link>
+  <z-link type="primary">link<z-icon :class="$style['icon']"><EyeIcon /></z-icon></z-link>
 </ClientOnly>
 
 ::: details 展开/关闭代码

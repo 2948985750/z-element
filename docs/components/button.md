@@ -32,6 +32,10 @@ import { TrashIcon, PencilIcon, ShareIcon, MagnifyingGlassIcon, ArrowUpIcon } fr
   .api-table th,td {
     flex: 1 1 25%;
   }
+
+  .icon {
+    @apply w-4 h-4;
+  }
 </style>
 
 <ClientOnly>
@@ -135,8 +139,10 @@ import { TrashIcon, PencilIcon, ShareIcon, MagnifyingGlassIcon, ArrowUpIcon } fr
     <z-button :icon="ShareIcon"></z-button>
     <z-button :icon="MagnifyingGlassIcon">搜索</z-button>
     <z-button>
-     上传
-     <z-icon class="right"><ArrowUpIcon/></z-icon>
+      上传
+      <template #right>
+        <z-icon><ArrowUpIcon/></z-icon>
+      </template>
     </z-button>
   </div>
 </ClientOnly>
@@ -144,26 +150,18 @@ import { TrashIcon, PencilIcon, ShareIcon, MagnifyingGlassIcon, ArrowUpIcon } fr
 ::: details 展开/关闭代码
 
 ```vue
-<script setup lang="ts">
-import zButton from '../../packages/components/Button';
-import zIcon from '../../packages/components/Icon';
-import { TrashIcon, PencilIcon, ShareIcon, MagnifyingGlassIcon, ArrowUpIcon } from '@heroicons/vue/24/solid';
-</script>
 <template>
   <z-button :icon="TrashIcon"></z-button>
   <z-button :icon="PencilIcon"></z-button>
   <z-button :icon="ShareIcon"></z-button>
   <z-button :icon="MagnifyingGlassIcon">搜索</z-button>
   <z-button>
-    上传<z-icon class="right"><ArrowUpIcon /></z-icon>
+    上传
+    <template #right>
+      <z-icon><ArrowUpIcon /></z-icon>
+    </template>
   </z-button>
 </template>
-<!-- 要实现图标在默认插槽内容的右面就需要使用order来控制，order的值为3则在最后面，-1则在最前面 -->
-<style lang="postcss">
-.right {
-  order: 3;
-}
-</style>
 ```
 
 :::
@@ -197,11 +195,6 @@ import { TrashIcon, PencilIcon, ShareIcon, MagnifyingGlassIcon, ArrowUpIcon } fr
 ::: details 展开/关闭代码
 
 ```vue
-<script setup lang='ts'>
-import zButton from "../../packages/components/Button";
-import zIcon from "../../packages/components/Icon"
-import { TrashIcon, PencilIcon, ShareIcon, MagnifyingGlassIcon, ArrowUpIcon } from'@heroicons/vue/24/solid';
-</script>
 <template>
   <z-button size="large">large</z-button>
   <z-button size="default" type="plain">default</z-button>

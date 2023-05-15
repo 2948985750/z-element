@@ -1,10 +1,10 @@
 <template>
   <span :class="$style['z-link-context']" @mouseover="onMouseover">
     <a v-bind="attrs" :class="calcClass" :href="calcHref">
-      <span v-if="props.icon">
+      <span v-if="props.icon" :class="$style['z-link-icon']">
         <zIcon> <component :is="props.icon" /> </zIcon>
       </span>
-      <span v-else>
+      <span v-else :class="$style['z-link-icon']">
         <slot name="icon"></slot>
       </span>
       <span :class="$style['z-link-inner']">
@@ -47,6 +47,11 @@ const underline: any = computed(() => (props.underline == true ? 'underline' : '
   .z-link-inner {
     @apply inline-flex items-center;
   }
+
+  .z-link-icon {
+    @apply w-5 h-5;
+  }
+
   > .z-link {
     @apply inline-flex align-middle outline-none  items-center p-1 no-underline;
     &:hover {

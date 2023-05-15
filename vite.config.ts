@@ -29,7 +29,7 @@ export default defineConfig({
       entry: './packages/components/index.ts',
       name: 'zUI',
       fileName: 'z-ui',
-      formats: ['es', 'cjs', 'iife', 'umd'],
+      formats: ['es', 'cjs', 'umd'],
     },
     rollupOptions: {
       external: ['vue'],
@@ -43,13 +43,6 @@ export default defineConfig({
     },
   },
   css: {
-    modules: {
-      // getJSON: function (cssFileName, json, outputFileName) {
-      //   var cssName = path.basename(cssFileName, '.css');
-      //   var jsonFileName = path.resolve('./build/' + cssName + '.json');
-      //   fs.writeFileSync(jsonFileName, JSON.stringify(json));
-      // },
-    },
     postcss: {
       plugins: [
         postcss_import(),
@@ -63,6 +56,10 @@ export default defineConfig({
         }),
       ],
     },
+    modules: {
+      localsConvention: 'camelCase',
+    },
+    // 将 CSS 代码嵌入 JavaScript 中
   },
   server: {
     // hmr: { overlay: false },
