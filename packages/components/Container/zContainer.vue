@@ -1,5 +1,5 @@
 <template>
-  <section :class="[$style['z-container'], block.is($style['z-column'], isColumn!)]">
+  <section :class="[$style['z-container'], is($style['z-column'], isColumn!)]">
     <slot></slot>
   </section>
 </template>
@@ -7,8 +7,7 @@
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
 import type { VNode } from 'vue';
-import { nameSpace } from '../../utils/bem';
-const block = nameSpace();
+import { is } from '../../utils/bem';
 const slots = useSlots();
 const props = withDefaults(defineProps<{ direction?: 'row' | 'column' }>(), { direction: 'row' });
 

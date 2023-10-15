@@ -1,9 +1,6 @@
-/**
- * @type {import('vitepress').UserConfig}
- */
 import { defineConfig } from 'vitepress';
 export default defineConfig({
-  // base: '',
+  base: '/',
   lang: 'zh-cn',
   title: 'z-ui',
   description: 'Vite & Vue powered static site generator.',
@@ -57,6 +54,27 @@ export default defineConfig({
             {
               text: 'Link 链接',
               link: '/components/link',
+            },
+          ],
+        },
+        {
+          text: 'Form组件',
+          items: [
+            {
+              text: 'radio 单选框',
+              link: '/components/radio',
+            },
+            {
+              text: 'checkbox 多选框',
+              link: '/components/checkbox',
+            },
+          ],
+        },
+        {
+          text: '数据展示',
+          items: [
+            {
+              text: 'List 列表',
             },
           ],
         },

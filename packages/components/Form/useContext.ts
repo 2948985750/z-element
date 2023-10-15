@@ -1,10 +1,14 @@
 import { inject } from 'vue';
-import { formContextKey, formItemContextKey } from './key';
 import { FormContext, FormItemContext } from './context';
-export function useFormContext(): FormContext | void {
+import type { InjectionKey } from 'vue';
+
+export const formContextKey: InjectionKey<FormContext> = Symbol.for('formContextKey');
+export const formItemContextKey: InjectionKey<FormItemContext> = Symbol.for('formItemContextKey');
+
+export function useFormContext(): FormContext | undefined {
   return inject(formContextKey);
 }
 
-export function useFormItemContext(): FormItemContext | void {
+export function useFormItemContext(): FormItemContext | undefined {
   return inject(formItemContextKey);
 }

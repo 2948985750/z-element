@@ -1,6 +1,5 @@
 import zForm from './form/zForm.vue';
-import zFormItem from './form-item/zFormItem.vue';
-export * from './key';
+import zFormItem from './formItem/zFormItem.vue';
 export { zForm, zFormItem };
 export default {
   zForm,

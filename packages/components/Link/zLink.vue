@@ -14,15 +14,19 @@
   </span>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends any">
 import { useAttrs, ref, computed, defineProps, useCssModule } from 'vue';
 import zIcon from '../Icon';
-import { nameSpace } from '../../utils/bem';
-import { linkProps } from './zLink';
+import { is } from '../../utils/bem';
+import type { LinkProps } from './zLink';
 
-const block = nameSpace();
 const attrs = useAttrs();
-const props = defineProps(linkProps);
+const props = withDefaults(defineProps<LinkProps<T>>(), {
+  type: 'default',
+  underline: true,
+  disabled: false,
+  href: 'javascript:;',
+});
 const className = useCssModule();
 
 const calcHref = computed(() => {
@@ -34,9 +38,9 @@ const calcClass = computed(() => {
     className['z-link'],
     className[`z-link--${props.type}`],
     props.disabled ? className[`z-link--${props.type}--disabled`] : '',
-    props.disabled ? className['z-link--disabled'] : '',
   ];
 });
+
 const onMouseover = () => {};
 const underline: any = computed(() => (props.underline == true ? 'underline' : 'none'));
 </script>
@@ -67,9 +71,9 @@ const underline: any = computed(() => (props.underline == true ? 'underline' : '
 
   > .z-link--default {
     @apply text-color_regular;
-    /* &:hover {
-      @apply underline decoration-solid decoration-color_regular;
-    } */
+    &:hover {
+      @apply underline decoration-solid decoration-color_regular text-color_placeholder;
+    }
   }
   > .z-link--default--disabled {
     @apply text-color_secondary;
@@ -80,9 +84,9 @@ const underline: any = computed(() => (props.underline == true ? 'underline' : '
 
   > .z-link--primary {
     @apply text-primary;
-    /* &:hover {
+    &:hover {
       @apply underline decoration-solid decoration-primary_light_3;
-    } */
+    }
   }
   > .z-link--primary--disabled {
     @apply text-primary_light_5;
@@ -92,9 +96,9 @@ const underline: any = computed(() => (props.underline == true ? 'underline' : '
   }
   > .z-link--success {
     @apply text-success;
-    /* &:hover {
-      @apply underline decoration-solid decoration-success_light_3;
-    } */
+    &:hover {
+      @apply text-success_light_3 underline decoration-solid decoration-success_light_3;
+    }
   }
   > .z-link--success--disabled {
     @apply text-success_light_5;
@@ -104,9 +108,9 @@ const underline: any = computed(() => (props.underline == true ? 'underline' : '
   }
   > .z-link--warning {
     @apply text-wraning;
-    /* &:hover {
-      @apply underline decoration-solid decoration-wraning_light_3;
-    } */
+    &:hover {
+      @apply text-wraning_light_3 underline decoration-solid decoration-wraning_light_3;
+    }
   }
   > .z-link--warning--disabled {
     @apply text-wraning_light_5;
@@ -117,9 +121,9 @@ const underline: any = computed(() => (props.underline == true ? 'underline' : '
 
   > .z-link--danger {
     @apply text-danger;
-    /* &:hover {
-      @apply underline decoration-solid decoration-danger_light_3;
-    } */
+    &:hover {
+      @apply text-danger_light_3 underline decoration-solid decoration-danger_light_3;
+    }
   }
   > .z-link--danger--disabled {
     @apply text-danger_light_5;
@@ -129,9 +133,9 @@ const underline: any = computed(() => (props.underline == true ? 'underline' : '
   }
   > .z-link--info {
     @apply text-info;
-    /* &:hover {
-      @apply underline decoration-solid decoration-info_light_3;
-    } */
+    &:hover {
+      @apply text-info_light_3 underline decoration-solid decoration-info_light_3;
+    }
   }
   > .z-link--info--disabled {
     @apply text-info_light_5;

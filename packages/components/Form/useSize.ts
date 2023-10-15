@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { componentSizeMap } from '../types-util/size';
+import { componentSizeMap } from '../utils/size';
 import { useFormContext, useFormItemContext } from './useContext';
 
 interface context {
@@ -7,6 +7,7 @@ interface context {
   formItem: typeof useFormItemContext;
   [k: string]: any;
 }
+
 export function useSize(name: string) {
   const map: context = {
     form: useFormContext,

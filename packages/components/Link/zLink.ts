@@ -21,4 +21,12 @@ export const linkProps = {
   },
 };
 
-export type LinkProps = ExtractPropTypes<typeof linkProps>;
+// export type LinkProps = ExtractPropTypes<typeof linkProps>;
+
+export interface LinkProps<T> {
+  type: LinkType;
+  underline: boolean;
+  disabled: boolean;
+  icon: T;
+  href: string;
+}

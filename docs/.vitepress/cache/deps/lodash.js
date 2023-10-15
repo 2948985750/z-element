@@ -1,10 +1,10 @@
 import {
   __commonJS
-} from "./chunk-OL3AADLO.js";
+} from "./chunk-76J2PTFD.js";
 
-// node_modules/.pnpm/registry.npmmirror.com+lodash@4.17.21/node_modules/lodash/lodash.js
+// node_modules/.pnpm/lodash@4.17.21/node_modules/lodash/lodash.js
 var require_lodash = __commonJS({
-  "node_modules/.pnpm/registry.npmmirror.com+lodash@4.17.21/node_modules/lodash/lodash.js"(exports, module) {
+  "node_modules/.pnpm/lodash@4.17.21/node_modules/lodash/lodash.js"(exports, module) {
     (function() {
       var undefined;
       var VERSION = "4.17.21";

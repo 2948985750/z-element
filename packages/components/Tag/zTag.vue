@@ -3,20 +3,22 @@
     ref="target"
     v-if="!shouldDestroy"
     :class="[
-      $style[defTagClass],
-      block.is('round', props.round),
-      block.is('disabled', props.disabled),
-      defClass($style, `${props.size}`, `${props.styleType}`, `${props.type}`),
+      'z-',
+      is('round', props.round),
+      is('disabled', props.disabled),
+      $props.size,
+      $props.styleType,
+      $props.type,
     ]"
   >
-    <span v-show="IconSlot || props.slot" :class="[defClass($style, `preIcon`), 'pre-icon']">
+    <span v-show="IconSlot || props.slot" :class="[]">
       <z-icon>
         <slot name="Icon"></slot>
       </z-icon>
     </span>
     <slot></slot>
     <template v-if="props.closable">
-      <i :class="[block.is('closable', props.closable)]">
+      <i :class="[is('closable', props.closable)]">
         <XCircleIcon @click="destroyComponent()" />
       </i>
     </template>
@@ -28,7 +30,7 @@ import ZIcon from '../Icon/zIcon.vue';
 
 import { ref, computed, onMounted, useSlots, Ref } from 'vue';
 import { TagProps } from './tag';
-import { nameSpace, contactClass } from '../../utils/bem';
+import { is } from '../../utils/bem';
 import { XCircleIcon } from '@heroicons/vue/24/solid';
 
 const target = ref();
@@ -36,11 +38,6 @@ const shouldDestroy = ref(false);
 
 // 样式传参
 const props = defineProps(TagProps);
-const block = nameSpace();
-const defTagClass = 'z-tag';
-const defClass = (hashStyle: any, ...classes: string[]) => {
-  return contactClass(defTagClass, ...classes).map((Class) => hashStyle[`${Class}`]);
-};
 
 // dom渲染后获取组件的样式
 const theme = computed(() => {
@@ -66,6 +63,7 @@ const destroyComponent = () => {
  * 1. 从组件内部添加 icon 图标
  * 2. 在标签名中声明图标
  */
+
 const slot = useSlots();
 const IconSlot = computed(() => {
   if (slot['Icon'] instanceof Function) {

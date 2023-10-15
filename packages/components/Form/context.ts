@@ -1,11 +1,17 @@
 import type { SetupContext } from 'vue';
-import type { Arrayable } from '../types-util/type-util';
+import type { Arrayable } from 'vitest';
 import type { ValidateError, ValidateFieldsError } from 'async-validator';
-import type { FormItemProps } from './form-item/form-item';
-import type { FormEmits, FormProps, Rule, Trigger } from './form/form';
-import type { validateState } from './form-item/form-item';
+import type { FormItemProps } from './formItem/formItem';
+import type { FormEmits, FormProps, Trigger, Rules } from './form/form';
+import type { validateState } from './formItem/formItem';
 
 export type FormValidateCallback = (isValid: boolean, invalidFields?: ValidateFieldsError) => void;
+
+export interface FormValidateFailure {
+  errors: ValidateError[] | null;
+  fields: ValidateFieldsError;
+}
+
 export interface FormValidateFailure {
   errors: ValidateError[] | null;
   fields: ValidateFieldsError;
@@ -18,25 +24,14 @@ export interface FormContext extends FormProps {
   resetFields: (props?: Arrayable<any>) => void;
   clearValidate: (props?: Arrayable<any>) => void;
   validateField: (props?: Arrayable<any>, callback?: FormValidateCallback) => Promise<boolean>;
-  getRule: (object: Record<string, Arrayable<Rule>> | Arrayable<Rule>, prop: string) => Rule[];
-  filterRule: (object: Rule[], trigger: string) => Rule[];
+  getRule: (object: Record<string, Arrayable<Rules>> | Arrayable<Rules>, prop: string) => Rules[];
+  filterRule: (object: Rules[], trigger: string) => Rules[];
 }
 
 export interface FormItemContext extends FormItemProps {
-  $el: HTMLDivElement;
+  el: HTMLDivElement;
   validationState: validateState;
-  // isGroup: boolean;
-  // labelId: string;
-  // inputIds: string[];
-  // hasLabel: boolean;
-  // addInputId: (id: string) => void;
-  // removeInputId: (id: string) => void;
   validate: (trigger: string, callback?: FormValidateCallback) => Promise<boolean>;
   resetField(): void;
   clearValidate(): void;
-}
-
-export interface FormValidateFailure {
-  errors: ValidateError[] | null;
-  fields: ValidateFieldsError;
 }

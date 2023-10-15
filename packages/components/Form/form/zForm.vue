@@ -6,24 +6,27 @@
 
 <script setup lang="ts">
 import { provide, reactive, toRefs, computed, onMounted } from 'vue';
-import { formContextKey } from '../key';
-import { FormProps, FormEmits } from './form';
+import { usePathToObject } from '../../../utils/usePathToObject';
 import { isFunction } from 'lodash';
+import { formContextKey } from '../useContext';
+
 import type { FormContext, FormItemContext } from '../context';
 import type { ValidateFieldsError } from 'async-validator';
-import type { FormValidateCallback } from './form';
-import { usePathToObject } from '../../../utils/usePathToObject';
+import type { FormValidateCallback, FormProps, FormEmits } from './form';
 import { Arrayable } from 'vitest';
 
-const props = defineProps(FormProps);
-const emit = defineEmits(FormEmits);
+const props = withDefaults(defineProps<FormProps>(), {
+  inline: false,
+  disabled: false,
+});
+const emit = defineEmits<FormEmits>();
 const fields: FormItemContext[] = [];
+
 const COMPONENT_NAME = 'zForm';
 const dataHandle = usePathToObject();
 
 const getRule: FormContext['getRule'] = (object, prop) => {
-  const rule = dataHandle.getValueByPath(object, prop);
-  return rule;
+  return dataHandle.getValueByPath(object, prop);
 };
 
 const filterRule: FormContext['filterRule'] = (object, trigger) => {
@@ -58,6 +61,7 @@ const filterFields = (context: FormItemContext[], properties: string[]) => {
 const addField: FormContext['addField'] = (field) => {
   fields.push(field);
 };
+
 const removeField: FormContext['removeField'] = (field) => {
   if (field.prop) {
     fields.splice(fields.indexOf(field), 1);
@@ -143,30 +147,15 @@ const ctx = reactive({
   getRule,
   filterRule,
 });
-provide(formContextKey, ctx);
 
+provide(formContextKey, ctx);
 onMounted(() => {});
 
 defineExpose({
-  /**
-   * @description Validate the whole form. Receives a callback or returns `Promise`.
-   */
   validate,
-  /**
-   * @description Validate specified fields.
-   */
   validateField,
-  /**
-   * @description Reset specified fields and remove validation result.
-   */
   resetFields,
-  /**
-   * @description Clear validation message for specified fields.
-   */
   clearValidate,
-  /**
-   * @description Scroll to the specified fields.
-   */
   scrollToField,
 });
 </script>

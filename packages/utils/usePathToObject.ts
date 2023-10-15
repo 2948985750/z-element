@@ -4,13 +4,16 @@ export function usePathToObject() {
   return {
     getValueByPath(object: any, path: string) {
       // debugger;
+      if (!(object instanceof Object)) {
+        return;
+      }
       if (typeof path === 'undefined') {
         return object;
       }
       const pathArr = typeof path === 'string' ? path.split('.') : [path];
       let result = object;
       for (const prop of pathArr) {
-        debugger;
+        // debugger;
         result = result[prop];
       }
       return result;

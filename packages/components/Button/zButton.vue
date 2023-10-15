@@ -5,15 +5,12 @@
     :class="[
       $style['z-button'],
       $style[`z-button--${props.type}`],
-      block.is($style['z-button--disabled'], props.disabled),
-      block.is($style[`z-button--${props.type}--disabled`], props.disabled),
+      is($style['z-button--disabled'], props.disabled),
+      is($style[`z-button--${props.type}--disabled`], props.disabled),
     ]"
     :style="btnStyle"
   >
-    <span
-      v-if="props.loading || props.icon"
-      :class="[$style['z-button-slot'], block.is($style['rotate'], props.loading)]"
-    >
+    <span v-if="props.loading || props.icon" :class="[$style['z-button-slot'], is($style['rotate'], props.loading)]">
       <slot name="icon">
         <component v-if="props.loading" :is="IconComponent"></component>
         <component v-else :is="props.icon"></component>
@@ -30,13 +27,12 @@
 
 <script lang="ts" setup>
 import { computed, useSlots } from 'vue';
-import { nameSpace } from '../../utils/bem';
+import { is } from '../../utils/bem';
 import { ButtonProps } from './button';
 import { ArrowPathIcon } from '@heroicons/vue/24/solid';
-import { componentSizeMap } from '../types-util/size';
+import { componentSizeMap } from '../utils/size';
 
 const props = defineProps(ButtonProps);
-const block = nameSpace();
 const slot = useSlots();
 const IconComponent = computed(() => (props.loadingIcon ? props.loadingIcon : ArrowPathIcon));
 const btnStyle = computed(() => {
@@ -172,3 +168,4 @@ const calcPadding = computed(() => {
   @apply bg-danger_light_3;
 }
 </style>
+../typesUtil/size
