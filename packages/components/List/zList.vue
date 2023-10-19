@@ -55,7 +55,7 @@
 <script setup lang="ts" generic="T extends DataSource">
 import { nextTick, ref, computed, onMounted, useSlots, h } from 'vue';
 import { getComputedSty, extractNumber } from '../../utils/basicUtilityFunctions';
-import type { List, DataSource, ListEmits } from './zListWrapper';
+import type { List, DataSource, ListEmits } from './zList';
 import { isArray } from '../../utils/basicUtilityFunctions';
 
 const slots = useSlots();

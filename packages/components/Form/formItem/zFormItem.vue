@@ -1,44 +1,56 @@
 <template>
   <div :class="[$style['z-form-item']]" ref="formItemRef">
-    <label :class="[$style['z-form-item-label']]" :required="isRequired">{{ props.label }}</label>
+    <label
+      :class="[$style['z-form-item-label'], isRequired ? $style['z-form-item-label--before'] : '']"
+      :required="isRequired"
+      >{{ props.label }}</label
+    >
     <slot></slot>
     <span :class="[$style['z-form-item-message']]">{{ validateMessage }}</span>
   </div>
 </template>
-
 <script setup lang="ts">
 //
-import { computed, provide, reactive, toRefs, ref, onMounted, onBeforeUnmount, nextTick, watchEffect } from 'vue';
+import {
+  computed,
+  provide,
+  reactive,
+  toRefs,
+  ref,
+  onMounted,
+  onBeforeUnmount,
+  nextTick,
+  watchEffect,
+  withCtx,
+} from 'vue';
+import { ensureArray, isString } from '../../../utils/basicUtilityFunctions';
 import { usePathToObject } from '../../../utils/usePathToObject';
-import { clone, isFunction } from 'lodash';
+import { clone, cloneDeep, isFunction } from 'lodash';
+import Validator from 'async-validator';
 
-import validator from 'async-validator';
 import { useSize } from '../useSize';
 import { formItemContextKey } from '../useContext';
-
 import { useFormContext } from '../useContext';
-import { Arrayable } from 'vitest';
 
-import type { Rules } from '../form/form';
-import type { FormValidateFailure } from '../context';
-import type { validateState, FormItemProps } from './formItem';
-import type { FormContext, FormItemContext } from '../context';
+import type { Arrayable } from 'vitest';
+import type { Rules, Trigger } from '../form/form';
+import type { ValidateState, FormItemProps } from './formItem';
+
+import type { FormContext, FormItemContext, FormValidateFailure } from '../context';
 import { componentSizeMap } from '../../utils/size';
 
 const props = withDefaults(defineProps<FormItemProps>(), {
   size: 'default',
 });
 
-const formContext = <FormContext>useFormContext();
-const formItemRef = ref();
-const validateMessage = ref('');
-
-const validationState = ref<validateState>('unchecked');
 const itemSize = useSize('form');
+const formContext = <FormContext>useFormContext();
+const formItemRef = ref<HTMLDivElement>();
+const validateMessage = ref('');
+const validationState = ref<ValidateState>('unchecked');
 
-let isResettingField = false;
-const dataHandle = usePathToObject();
-let initFieldValue: any = clone(dataHandle.getValueByPath(formContext?.model, props?.prop!));
+let isReseted = false;
+let initFieldValue: any = clone(usePathToObject(formContext?.model, props?.prop).val);
 
 const labelWidth = computed(() => {
   return props.labelWidth ? props.labelWidth : formContext?.labelWidth ? formContext?.labelWidth : '90px';
@@ -48,65 +60,68 @@ const itemBoxHeight = computed(() => {
   return componentSizeMap[props.size] + 'px';
 });
 
+const normalizedRules = computed(() => {
+  const { required } = props;
+  const rules: Rules[] = [];
+
+  if (props.rules && typeof props.rules === 'object') {
+    rules.push(...ensureArray(props.rules));
+  }
+
+  const formRules = formContext.rules && usePathToObject(formContext.rules, props.prop);
+
+  if (formRules?.val) {
+    // formRules 能为真说明必定有props.prop
+    rules.push(...ensureArray(formRules.val));
+  }
+
+  if (required) {
+    const requiredItems = rules.filter((rule) => {
+      return rule.required;
+    });
+
+    requiredItems.length > 0 ? rules.push(...requiredItems) : rules.push({ required: true, trigger: 'blur' });
+  }
+
+  return rules;
+  // 返回来自form和formItem中的与当前prop相关的rules
+});
+
 const isRequired = computed(() => {
-  const val = dataHandle.getValueByPath(formContext?.rules!, props?.prop!);
-  console.log(props.required);
+  return normalizedRules.value.some((v) => v.required);
+});
 
-  if (props.required) {
-    return '*';
+const getCurrentItemModel = computed(() => {
+  if (!formContext.model || !props.prop) {
+    return;
   }
 
-  if (!props.required && typeof val === 'undefined') {
-    return ' ';
-  }
-
-  const ruleRequired = Array.isArray(val)
-    ? val.filter((rule) => {
-        return rule.required;
-      })
-    : val.hasOwnProperty('required');
-
-  return ruleRequired || props.required ? '*' : '';
+  return usePathToObject(formContext.model, props.prop).val;
 });
 
-watchEffect(() => {
-  console.log(isRequired.value);
-});
-
-const formData = computed(() => {
-  return dataHandle.getValueByPath(formContext.model!, props.prop!);
-});
-
-const fieldForRule = computed(() => {
-  return formContext.getRule(formContext.rules!, props.prop!);
-});
-
-const resetField = async () => {
-  const model = formContext?.model;
-  if (!model || !props.prop) return;
-
-  dataHandle.setValueByPath(formContext.model, props.prop, initFieldValue);
-  isResettingField = true;
-  await nextTick();
-  clearValidate();
-  isResettingField = false;
-};
-
-const clearValidate: FormItemContext['clearValidate'] = () => {
-  setValidationState('unchecked');
-  validateMessage.value = '';
-  isResettingField = false;
-};
-
-const setValidationState = (state: validateState) => {
+const setValidationState = (state: ValidateState) => {
   validationState.value = state;
 };
 
-const onValidationSucceeded = () => {
-  setValidationState('success');
-  validateMessage.value = '';
-  formContext?.emit('validate', props.prop!, true, '');
+const filterRules = (trigger: Trigger) => {
+  const _rules = normalizedRules.value;
+  return _rules.filter((rule) => {
+    if (!rule.trigger || !trigger) {
+      return true;
+    }
+
+    if (Array.isArray(rule.trigger)) {
+      return rule.trigger.includes(trigger);
+    }
+
+    return rule.trigger === trigger;
+  });
 };
+
+const propString = computed(() => {
+  if (!props.prop) return '';
+  return isString(props.prop) ? props.prop : props.prop.join('.');
+});
 
 const onValidationFailed = (error: FormValidateFailure) => {
   const { errors, fields } = error;
@@ -119,64 +134,67 @@ const onValidationFailed = (error: FormValidateFailure) => {
   formContext?.emit('validate', props.prop!, false, validateMessage.value);
 };
 
-const doValidate = async (rules: Arrayable<Rules>) => {
-  const prop = props.prop![props.prop!.length - 1];
-  const validater = new validator({
-    [prop]: rules,
-  });
-  return validater
-    .validate({ [prop!]: formData.value }, { firstFields: true })
-    .then(() => {
-      onValidationSucceeded();
+const doValidate = async (rules: Rules[]) => {
+  const modelProp = propString.value;
+  const asyncValidator = new Validator({ [modelProp]: rules });
+
+  return asyncValidator
+    .validate({ [modelProp]: getCurrentItemModel.value }, { firstFields: true })
+    .then((v) => {
+      setValidationState('success');
+      validateMessage.value = '';
       return true;
     })
-    .catch((err) => {
+    .catch((err: FormValidateFailure) => {
       onValidationFailed(err);
       return Promise.reject(err);
     });
 };
 
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
-  if (isResettingField || typeof props.prop === 'undefined') {
+  const isFn = isFunction(callback);
+
+  if (!props.prop || isReseted) {
     return false;
   }
-  const hasCallback = isFunction(callback);
 
-  const resultForRule = formContext?.filterRule(fieldForRule.value, trigger);
-  if (Array.isArray(resultForRule) && resultForRule.length === 0) {
-    callback?.(true);
+  if (normalizedRules.value.length === 0) {
+    isFn && callback(false);
+    return false;
+  }
+
+  const _rules = filterRules(trigger);
+  if (_rules.length === 0) {
+    isFn && callback(true);
     return true;
   }
 
-  return doValidate(resultForRule)
-    .then((val) => {
-      callback?.(true);
+  setValidationState('validating');
+
+  return doValidate(_rules)
+    .then((a) => {
+      isFn && callback(true);
       return true;
     })
-    .catch(({ fields }) => {
-      callback?.(false, fields);
-      return hasCallback ? false : Promise.reject(fields);
+    .catch((error: FormValidateFailure) => {
+      isFn && callback(false, error.fields);
+      return isFn ? false : Promise.reject(error.fields);
     });
 };
 
+const resetField: FormItemContext['resetField'] = () => {};
+const clearValidate: FormItemContext['clearValidate'] = () => {};
+
 const context: FormItemContext = reactive({
   ...toRefs(props),
-  el: formItemRef,
+  el: formItemRef.value,
+  validate,
   validationState,
   resetField,
   clearValidate,
-  validate,
 });
 
 provide(formItemContextKey, context);
-
-onMounted(() => {
-  formContext?.addField(context);
-});
-
-onBeforeUnmount(() => {
-  formContext?.removeField(context);
-});
 
 defineExpose({
   size: props.size,
@@ -185,6 +203,20 @@ defineExpose({
   validate,
   resetField,
   clearValidate,
+});
+
+onMounted(() => {
+  formContext?.addValidateItem(context);
+});
+
+onBeforeUnmount(() => {
+  formContext?.removeValidateItem(context);
+});
+
+watchEffect(() => {
+  if (validationState.value === 'success') {
+    validateMessage.value = '';
+  }
 });
 </script>
 
@@ -201,11 +233,11 @@ defineExpose({
 .z-form-item-label {
   @apply text-right pr-1 box-border;
   width: v-bind(labelWidth);
+}
 
-  &::before {
-    @apply text-red-600;
-    content: attr(required);
-  }
+.z-form-item-label--before::before {
+  @apply text-red-600;
+  content: '*';
 }
 
 .z-form-item-message {

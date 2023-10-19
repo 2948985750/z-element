@@ -1,34 +1,13 @@
-type AnyObject = { [key: string]: any };
+import { Arrayable } from 'vitest';
+import { get, set } from 'lodash';
 
-export function usePathToObject() {
+export function usePathToObject<T extends object, K extends Arrayable<string>>(obj: T, path: K, defaultValue = null) {
   return {
-    getValueByPath(object: any, path: string) {
-      // debugger;
-      if (!(object instanceof Object)) {
-        return;
-      }
-      if (typeof path === 'undefined') {
-        return object;
-      }
-      const pathArr = typeof path === 'string' ? path.split('.') : [path];
-      let result = object;
-      for (const prop of pathArr) {
-        // debugger;
-        result = result[prop];
-      }
-      return result;
+    get val() {
+      return get(obj, path, defaultValue);
     },
-    setValueByPath(object: any, path: string, val: any): void {
-      const pathArr = typeof path === 'string' ? path.split('.') : [path];
-      const lastProp = <string>pathArr.pop();
-      let nestedObj = object;
-      for (let prop of path) {
-        if (!(nestedObj[prop] instanceof Object)) {
-          break;
-        }
-        nestedObj = nestedObj[prop];
-      }
-      nestedObj[lastProp] = val;
+    set val(value) {
+      set(obj, path, value);
     },
   };
 }

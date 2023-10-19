@@ -1,11 +1,13 @@
-import type { PropType, ExtractPropTypes } from 'vue';
+import { Arrayable } from 'vitest';
 import { ComponentSize } from '../../utils/size';
-export type validateState = 'success' | 'error' | 'unchecked';
+import { Rules } from '../form/form';
+export type ValidateState = 'success' | 'error' | 'unchecked' | 'validating';
 
 export interface FormItemProps {
-  prop: string;
+  prop: Arrayable<string>;
   label: string;
   labelWidth?: string;
   required?: boolean;
   size?: ComponentSize;
+  rules?: Arrayable<Rules>;
 }

@@ -4,21 +4,20 @@ import type { Arrayable } from 'vitest';
 import type { ValidateFieldsError } from 'async-validator';
 
 export type FormValidateCallback = (isValid: boolean, invalidFields?: ValidateFieldsError) => void;
-export type Trigger = 'blur' | 'change' | 'focus' | 'reset' | 'input';
+export type Trigger = 'blur' | 'change' | 'focus' | 'reset' | 'input' | '';
 export type Rules = RuleItem & {
-  trigger: Arrayable<Trigger>;
+  trigger?: Arrayable<Trigger>;
 };
 
 export interface FormProps {
   model: Record<string, any>;
-  rules?: Record<string, Rules>;
+  rules?: Record<string, Arrayable<Rules>>;
   inline?: boolean;
   labelWidth?: string;
   size?: ComponentSize;
   scrollToError?: boolean;
   ruleChangeValidate?: boolean;
   disabled?: boolean;
-  inlineMessage?: boolean;
 }
 
 export type FormEmits = {

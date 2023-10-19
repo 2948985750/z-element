@@ -1,5 +1,5 @@
 <template>
-  <div class="z-input-wrapper">
+  <div :class="['z-input-wrapper', foucsState ? 'z-input--focus' : '']">
     <div class="z-input-prefix-outside">
       <slot name="prefixOutside"></slot>
     </div>
@@ -16,6 +16,7 @@
         @input="onInput"
         @focus="focusHandle"
         @blur="blurHandle"
+        ref="inputRef"
       />
       <div class="z-input-suffix-inner">
         <slot name="suffixInner">
@@ -44,7 +45,6 @@ import { componentSizeMap } from '../utils/size';
 import { useFormItemContext } from '../Form/useContext';
 import type { InputProps, InputEmits } from './zInput';
 
-const modelValue = defineModel();
 const attrs = useAttrs();
 const props = withDefaults(defineProps<InputProps>(), {
   type: 'text',
@@ -57,34 +57,35 @@ const props = withDefaults(defineProps<InputProps>(), {
   autocomplete: false,
 });
 
-onUpdated(() => {
-  console.log(props);
-});
-
+const inputRef = ref<HTMLInputElement>();
 const emit = defineEmits<InputEmits>();
 const slots = useSlots();
 const pwdDisState = ref(false);
 const ctx = useFormItemContext();
 
-console.log(ctx?.validationState);
+// console.log(ctx?.validationState);
 
 const sizeForpx = computed(() => {
   return props.size ? componentSizeMap[props.size] + 'px' : ctx?.size + 'px';
 });
 
-const type = ref<InputProps['type']>(props.type);
+const foucsState = ref(false);
 
+const type = ref<InputProps['type']>(props.type);
 function onInput(e: InputEvent) {
   emit('update:modelValue', e.target?.value);
   emit('input', e.target?.value);
 }
 
 function focusHandle(e) {
+  foucsState.value = true;
   emit('focus', e);
 }
 
 function blurHandle(e) {
   emit('blur', e);
+  ctx?.validate('blur');
+  foucsState.value = false;
 }
 
 function changeHandle(e) {
@@ -103,13 +104,21 @@ function changeDisplay() {
   }
   pwdDisState.value = !pwdDisState.value;
 }
+
+function focus() {
+  inputRef.value?.focus();
+}
 </script>
 
 <style lang="postcss" scoped>
 .z-input-wrapper {
-  @apply flex items-center border-info_light_7 border-solid rounded-md text-color_regular;
+  @apply flex items-center flex-auto border-info_light_7 border-solid rounded-md text-color_regular;
   height: v-bind(sizeForpx);
   border-width: 1px;
+}
+
+.z-input--focus {
+  @apply border-primary;
 }
 
 .z-input-inner {
@@ -118,7 +127,6 @@ function changeDisplay() {
 
 .z-input-element {
   @apply border-none flex-1 outline-none appearance-none p-0 h-full;
-
   & [type='password']::-webkit-reveal {
     @apply hidden;
   }

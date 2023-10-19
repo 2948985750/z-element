@@ -1,37 +1,35 @@
 <template>
-  <zList
-    :dataSource="data"
-    locale="asdf"
-    :nextDataHandle="
-      (a) => {
-        console.log(a);
-      }
-    "
-    @onItemClick="
-      (v) => {
-        console.log(v);
-      }
-    "
-  >
-    <template v-slot="val">
-      <!-- {{ console.log(val.row.content) }} -->
-      <z-button>
-        <z-button>{{ val?.row.header }}</z-button>
-        <z-button>{{ val?.row.content }}</z-button>
-        <z-button>{{ val?.row.footer }}</z-button>
-      </z-button>
-      <img :src="val?.row.key" alt="" />
-    </template>
-  </zList>
+  <zForm :rules="rules" :model="model">
+    <zFormItem prop="a" label="账号">
+      <zInput v-model.number="model.a"></zInput>
+    </zFormItem>
+  </zForm>
 </template>
 
 <script setup lang="ts">
 import { inject, reactive, watchEffect, ref, computed, nextTick, onMounted } from 'vue';
-import { zInput, zButton, zIcon, zForm, zFormItem, zList } from '../packages/components';
-import type { List } from '../packages/components';
+import { zInput, zButton, zIcon, zForm, zFormItem, zList, type Rules } from '../packages/components';
 
+import { Arrayable } from 'vitest';
 const model = reactive({
   a: 1,
+  b: 2,
+});
+
+const rules = reactive<Record<string, Arrayable<Rules>>>({
+  a: [
+    {
+      type: 'number',
+      trigger: 'blur',
+      message: '必须是数字',
+    },
+    {
+      type: 'number',
+      required: true,
+      trigger: 'blur',
+      message: '这是必填项',
+    },
+  ],
 });
 
 interface DataType {

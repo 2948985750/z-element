@@ -5,3 +5,6 @@ export default {
   zForm,
   zFormItem,
 };
+
+export * from './form/form';
+export * from './formItem/formItem';
