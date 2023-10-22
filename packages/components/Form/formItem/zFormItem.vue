@@ -1,10 +1,7 @@
 <template>
   <div :class="[$style['z-form-item']]" ref="formItemRef">
-    <label
-      :class="[$style['z-form-item-label'], isRequired ? $style['z-form-item-label--before'] : '']"
-      :required="isRequired"
-      >{{ props.label }}</label
-    >
+    <label :class="[$style['z-form-item-label'], isRequired ? $style['z-form-item-label--before'] : '']"
+      :required="isRequired">{{ props.label }}</label>
     <slot></slot>
     <span :class="[$style['z-form-item-message']]">{{ validateMessage }}</span>
   </div>
@@ -68,7 +65,7 @@ const normalizedRules = computed(() => {
     rules.push(...ensureArray(props.rules));
   }
 
-  const formRules = formContext.rules && usePathToObject(formContext.rules, props.prop);
+  const formRules = formContext.rules && usePathToObject(formContext.rules, props.prop[props.prop.length - 1]);
 
   if (formRules?.val) {
     // formRules 能为真说明必定有props.prop
@@ -95,7 +92,6 @@ const getCurrentItemModel = computed(() => {
   if (!formContext.model || !props.prop) {
     return;
   }
-
   return usePathToObject(formContext.model, props.prop).val;
 });
 
@@ -120,7 +116,7 @@ const filterRules = (trigger: Trigger) => {
 
 const propString = computed(() => {
   if (!props.prop) return '';
-  return isString(props.prop) ? props.prop : props.prop.join('.');
+  return props.prop
 });
 
 const onValidationFailed = (error: FormValidateFailure) => {
@@ -128,7 +124,6 @@ const onValidationFailed = (error: FormValidateFailure) => {
   if (!errors || !fields) {
     console.error(error);
   }
-
   setValidationState('error');
   validateMessage.value = errors ? errors?.[0]?.message ?? `${props.prop} is required` : '';
   formContext?.emit('validate', props.prop!, false, validateMessage.value);
@@ -182,8 +177,17 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
     });
 };
 
-const resetField: FormItemContext['resetField'] = () => {};
-const clearValidate: FormItemContext['clearValidate'] = () => {};
+const resetField: FormItemContext['resetField'] = () => {
+  if (!formContext.model || !props.prop) {
+    return
+  }
+  clearValidate()
+};
+
+const clearValidate: FormItemContext['clearValidate'] = () => {
+  validationState.value = 'unchecked'
+  validateMessage.value = ''
+};
 
 const context: FormItemContext = reactive({
   ...toRefs(props),
@@ -222,7 +226,7 @@ watchEffect(() => {
 
 <style module lang="postcss">
 .z-form-item {
-  @apply flex mb-3 items-center flex-wrap;
+  @apply flex mb-5 items-center flex-wrap;
   height: v-bind(itemBoxHeight);
 
   > :nth-child(2) {
@@ -241,7 +245,7 @@ watchEffect(() => {
 }
 
 .z-form-item-message {
-  @apply basis-full text-error h-5;
+  @apply basis-full text-error h-5 text-xs;
   margin-left: v-bind(labelWidth);
 }
 </style>

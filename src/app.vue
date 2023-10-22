@@ -1,19 +1,26 @@
 <template>
-  <zForm :rules="rules" :model="model">
-    <zFormItem prop="a" label="账号">
-      <zInput v-model.number="model.a"></zInput>
+  <zForm :rules="rules" :model="model" ref="form">
+    <zFormItem prop="a.a" label="账号">
+      <zInput v-model.number="model.a.a"></zInput>
     </zFormItem>
+    <zFormItem prop="b.b" label="账号">
+      <zInput v-model.number="model.b.b"></zInput>
+    </zFormItem>
+
+    <zButton @click="() => {
+      form?.clearValidate([])
+    }"></zButton>
   </zForm>
 </template>
 
 <script setup lang="ts">
 import { inject, reactive, watchEffect, ref, computed, nextTick, onMounted } from 'vue';
-import { zInput, zButton, zIcon, zForm, zFormItem, zList, type Rules } from '../packages/components';
+import { zInput, zButton, zIcon, zForm, zFormItem, zList, type Rules, type FormInstance } from '../packages/components';
 
 import { Arrayable } from 'vitest';
 const model = reactive({
-  a: 1,
-  b: 2,
+  a: { a: '' },
+  b: { b: '' },
 });
 
 const rules = reactive<Record<string, Arrayable<Rules>>>({
@@ -30,6 +37,17 @@ const rules = reactive<Record<string, Arrayable<Rules>>>({
       message: '这是必填项',
     },
   ],
+  b: {
+    // type: 'any',
+    type: 'number',
+    required: true,
+  },
+});
+
+const form = ref<FormInstance>();
+
+onMounted(() => {
+  form.value?.validateField(['a.a', 'b.b']);
 });
 
 interface DataType {

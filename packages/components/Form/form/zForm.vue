@@ -5,19 +5,16 @@
 </template>
 
 <script setup lang="ts">
+import { isFunction, get } from 'lodash';
 import { provide, reactive, toRefs, computed, onMounted, watchEffect } from 'vue';
-import { usePathToObject } from '../../../utils/usePathToObject';
-import { isFunction } from 'lodash';
-
 import { formContextKey } from '../useContext';
-import Validator from 'async-validator';
-import { FormItemProps } from '../formItem/formItem';
-import { ensureArray } from '../../../utils/basicUtilityFunctions';
+import { usePathToObject } from '../../../utils/usePathToObject';
 
 import type { FormContext, FormItemContext, FormValidationResult } from '../context';
 import type { ValidateFieldsError } from 'async-validator';
-import type { FormValidateCallback, FormProps, FormEmits } from './form';
-import { Arrayable } from 'vitest';
+import type { FormProps, FormEmits } from './form';
+import type { FormValidateCallback } from "../context"
+
 
 const props = withDefaults(defineProps<FormProps>(), {
   inline: false,
@@ -35,7 +32,7 @@ watchEffect(() => {
 });
 
 const emit = defineEmits<FormEmits>();
-const COMPONENT_NAME = 'zForm';
+
 const isInline = computed(() => {
   return props.inline ? 'flex' : 'block';
 });
@@ -51,23 +48,30 @@ const removeValidateItem: FormContext['removeValidateItem'] = (item) => {
   }
 };
 
-const resetValidateItem: FormContext['resetValidateItem'] = (props = []) => {};
+const resetValidateItem: FormContext['resetValidateItem'] = (props = []) => { };
 
-const clearValidate: FormContext['clearValidate'] = () => {};
+const clearValidate: FormContext['clearValidate'] = (modelProps = []) => {
+  const item = filterValidateItems(modelProps)
+  item.forEach((v) => {
+    v.clearValidate()
+  })
+};
 
-const doValidate = async (modelProps: Arrayable<string>) => {
+const doValidate = async (modelProps: string[]) => {
   if (!props.model) {
     console.warn('model 属性并未传入不能进行校验');
     return false;
   }
 
   const _validateItems = filterValidateItems(modelProps);
+  console.log(_validateItems);
 
   if (_validateItems.length === 0) {
     return true;
   }
 
   let validationErrors: ValidateFieldsError = {};
+
   for (const iterator of _validateItems) {
     try {
       await iterator.validate('');
@@ -84,39 +88,40 @@ const doValidate = async (modelProps: Arrayable<string>) => {
   return Promise.reject(validationErrors);
 };
 
-const scrollToField = (prop: Arrayable<string>) => {
+const scrollToField = (prop: string[]) => {
   const field = filterValidateItems(prop)[0];
   if (field) {
-    field.el?.scrollIntoView(props.scrollIntoViewOptions);
+    field.el?.scrollIntoView(props.scrollOptions);
   }
 };
 
 const validateField: FormContext['validateField'] = (modelProps = [], callback) => {
-  const isFun = !isFunction(callback);
-  try {
-    const reault = doValidate(modelProps);
-  } catch (error) {
+  const isFun = isFunction(callback);
+  return doValidate(modelProps).then(() => {
+    return Promise.resolve(true);
+  }).catch((error) => {
     if (error instanceof Error) throw error;
+
     if (props.scrollToError) {
       scrollToField(modelProps);
     }
-    callback?.(false, error as ValidateFieldsError);
-    return Promise.reject(error);
-  }
 
-  return Promise.resolve(true);
+    isFun && callback?.(false, error as ValidateFieldsError);
+
+    return Promise.reject(error);
+  })
 };
 
-const validate = async (callback?: FormValidateCallback): FormValidationResult => validateField(undefined, callback);
+const validate = async (callback?: FormValidateCallback): FormValidationResult => validateField([], callback);
 
 const filterValidateItems: FormContext['filterValidateItems'] = (modelProps = []) => {
-  if (modelProps.length > 0) {
-    return validateItems.filter((item) => item.prop && modelProps.includes(item.prop[item.prop.length - 1]));
+  if (modelProps && modelProps.length > 0) {
+    return validateItems.filter((item) => item.prop && modelProps.includes(item.prop));
   }
   return validateItems;
 };
 
-const resetFields: FormContext['resetValidateItem'] = () => {};
+const resetFields: FormContext['resetValidateItem'] = () => { };
 
 const ctx = reactive({
   ...toRefs(props),
@@ -130,7 +135,7 @@ const ctx = reactive({
 });
 
 provide(formContextKey, ctx);
-onMounted(() => {});
+onMounted(() => { });
 
 defineExpose({
   validate,

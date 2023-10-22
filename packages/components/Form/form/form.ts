@@ -1,13 +1,15 @@
 import type { RuleItem } from 'async-validator';
 import type { ComponentSize } from '../../utils/size';
 import type { Arrayable } from 'vitest';
-import type { ValidateFieldsError } from 'async-validator';
+import { reactive } from 'vue';
+import { MaybeRef } from '@vueuse/core';
 
-export type FormValidateCallback = (isValid: boolean, invalidFields?: ValidateFieldsError) => void;
 export type Trigger = 'blur' | 'change' | 'focus' | 'reset' | 'input' | '';
 export type Rules = RuleItem & {
   trigger?: Arrayable<Trigger>;
 };
+
+interface ScrollOptions {}
 
 export interface FormProps {
   model: Record<string, any>;
@@ -18,6 +20,11 @@ export interface FormProps {
   scrollToError?: boolean;
   ruleChangeValidate?: boolean;
   disabled?: boolean;
+  scrollOptions?: {
+    behavior?: 'smooth' | 'instant' | 'auto';
+    block?: 'start' | 'center' | 'end' | 'nearest';
+    inline?: 'start' | 'center' | 'end' | 'nearest';
+  };
 }
 
 export type FormEmits = {

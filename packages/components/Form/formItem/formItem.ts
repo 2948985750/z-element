@@ -4,7 +4,7 @@ import { Rules } from '../form/form';
 export type ValidateState = 'success' | 'error' | 'unchecked' | 'validating';
 
 export interface FormItemProps {
-  prop: Arrayable<string>;
+  prop: string;
   label: string;
   labelWidth?: string;
   required?: boolean;

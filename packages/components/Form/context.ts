@@ -1,5 +1,4 @@
 import type { SetupContext } from 'vue';
-import type { Arrayable } from 'vitest';
 import type { ValidateError, ValidateFieldsError } from 'async-validator';
 import type { FormItemProps } from './formItem/formItem';
 import type { FormEmits, FormProps, Trigger, Rules } from './form/form';
@@ -16,10 +15,10 @@ export interface FormContext extends FormProps {
   emit: SetupContext<FormEmits>['emit'];
   addValidateItem: (item: FormItemContext) => void;
   removeValidateItem: (item: FormItemContext) => void;
-  resetValidateItem: (props?: Arrayable<string>) => void;
-  clearValidate: (props?: Arrayable<string>) => void;
-  validateField: (props?: Arrayable<string>, callback?: FormValidateCallback) => Promise<boolean>;
-  filterValidateItems: (prop: Arrayable<string>) => FormItemContext[];
+  resetValidate: (props: string[]) => void;
+  clearValidate: (props: string[]) => void;
+  validateField: (props: string[], callback?: FormValidateCallback) => Promise<boolean>;
+  filterValidateItems: (prop: string[]) => FormItemContext[];
 }
 
 export interface FormItemContext extends FormItemProps {
@@ -29,3 +28,5 @@ export interface FormItemContext extends FormItemProps {
   resetField(): void;
   clearValidate(): void;
 }
+
+export type FormInstance = Pick<FormContext, 'validateField' | 'scrollToError' | 'resetValidate' | 'clearValidate'>;

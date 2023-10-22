@@ -9,6 +9,5 @@ export * from './Tag';
 
 export * from './Form';
 export * from './Input';
-export * from './Checkbox';
 export * from './Autodcomplete';
 export * from './List';
