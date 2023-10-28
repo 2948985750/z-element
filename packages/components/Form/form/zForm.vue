@@ -13,8 +13,7 @@ import { usePathToObject } from '../../../utils/usePathToObject';
 import type { FormContext, FormItemContext, FormValidationResult } from '../context';
 import type { ValidateFieldsError } from 'async-validator';
 import type { FormProps, FormEmits } from './form';
-import type { FormValidateCallback } from "../context"
-
+import type { FormValidateCallback } from '../context';
 
 const props = withDefaults(defineProps<FormProps>(), {
   inline: false,
@@ -26,10 +25,6 @@ const props = withDefaults(defineProps<FormProps>(), {
 });
 
 const validateItems: FormItemContext[] = [];
-
-watchEffect(() => {
-  console.log(validateItems);
-});
 
 const emit = defineEmits<FormEmits>();
 
@@ -48,13 +43,11 @@ const removeValidateItem: FormContext['removeValidateItem'] = (item) => {
   }
 };
 
-const resetValidateItem: FormContext['resetValidateItem'] = (props = []) => { };
-
 const clearValidate: FormContext['clearValidate'] = (modelProps = []) => {
-  const item = filterValidateItems(modelProps)
+  const item = filterValidateItems(modelProps);
   item.forEach((v) => {
-    v.clearValidate()
-  })
+    v.clearValidate();
+  });
 };
 
 const doValidate = async (modelProps: string[]) => {
@@ -64,7 +57,6 @@ const doValidate = async (modelProps: string[]) => {
   }
 
   const _validateItems = filterValidateItems(modelProps);
-  console.log(_validateItems);
 
   if (_validateItems.length === 0) {
     return true;
@@ -97,19 +89,21 @@ const scrollToField = (prop: string[]) => {
 
 const validateField: FormContext['validateField'] = (modelProps = [], callback) => {
   const isFun = isFunction(callback);
-  return doValidate(modelProps).then(() => {
-    return Promise.resolve(true);
-  }).catch((error) => {
-    if (error instanceof Error) throw error;
+  return doValidate(modelProps)
+    .then(() => {
+      return Promise.resolve(true);
+    })
+    .catch((error) => {
+      if (error instanceof Error) throw error;
 
-    if (props.scrollToError) {
-      scrollToField(modelProps);
-    }
+      if (props.scrollToError) {
+        scrollToField(modelProps);
+      }
 
-    isFun && callback?.(false, error as ValidateFieldsError);
+      isFun && callback?.(false, error as ValidateFieldsError);
 
-    return Promise.reject(error);
-  })
+      return Promise.reject(error);
+    });
 };
 
 const validate = async (callback?: FormValidateCallback): FormValidationResult => validateField([], callback);
@@ -121,26 +115,26 @@ const filterValidateItems: FormContext['filterValidateItems'] = (modelProps = []
   return validateItems;
 };
 
-const resetFields: FormContext['resetValidateItem'] = () => { };
+const resetValidate: FormContext['resetValidate'] = () => {};
 
 const ctx = reactive({
   ...toRefs(props),
   emit,
   addValidateItem,
   removeValidateItem,
-  resetValidateItem,
+  resetValidate,
   clearValidate,
   validateField,
   filterValidateItems,
 });
 
 provide(formContextKey, ctx);
-onMounted(() => { });
+onMounted(() => {});
 
 defineExpose({
   validate,
   validateField,
-  resetFields,
+  resetValidate,
   clearValidate,
   scrollToField,
 });

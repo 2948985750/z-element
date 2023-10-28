@@ -6,21 +6,31 @@
     <zFormItem prop="b.b" label="账号">
       <zInput v-model.number="model.b.b"></zInput>
     </zFormItem>
-
-    <zButton @click="() => {
-      form?.clearValidate([])
-    }"></zButton>
+    <zFormItem label="爱好" prop="c.c">
+      <zCheckbox
+        :options="checkOpt"
+        v-model="model.c.c"
+        @change="
+          (val) => {
+            console.log(val);
+          }
+        "
+      ></zCheckbox>
+    </zFormItem>
   </zForm>
+  <!-- <zInput type="checkbox"></zInput> -->
 </template>
 
 <script setup lang="ts">
 import { inject, reactive, watchEffect, ref, computed, nextTick, onMounted } from 'vue';
-import { zInput, zButton, zIcon, zForm, zFormItem, zList, type Rules, type FormInstance } from '../packages/components';
+import { zInput, zButton, zIcon, zForm, zFormItem, zList, zCheckbox } from '../packages/components';
+import type { Rules, FormInstance, CheckBoxOptions } from '../packages/components';
+import type { Arrayable } from 'vitest';
 
-import { Arrayable } from 'vitest';
 const model = reactive({
   a: { a: '' },
   b: { b: '' },
+  c: { c: [] },
 });
 
 const rules = reactive<Record<string, Arrayable<Rules>>>({
@@ -42,13 +52,32 @@ const rules = reactive<Record<string, Arrayable<Rules>>>({
     type: 'number',
     required: true,
   },
+  c: {
+    trigger: 'change',
+    type: 'array',
+    required: true,
+    message: '必填项',
+  },
 });
 
 const form = ref<FormInstance>();
-
 onMounted(() => {
-  form.value?.validateField(['a.a', 'b.b']);
+  form.value?.validateField(['a.a', 'b.b', 'c.c']);
 });
+
+const checkOpt = ref<CheckBoxOptions>([
+  {
+    label: '选项1',
+    key: '1',
+  },
+  {
+    label: '选项2',
+    key: '2',
+    disabled: true,
+  },
+]);
+
+const checkedList = ref(['选项1']);
 
 interface DataType {
   header: string;

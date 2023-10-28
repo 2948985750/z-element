@@ -2,7 +2,7 @@
 
 import { ComponentSize } from '../utils/size';
 
-type InputType = 'text' | 'password' | 'textarea' | 'submit';
+type InputType = 'text' | 'password' | 'textarea' | 'submit' | 'checkbox' | 'radio';
 
 export type InputEmits = {
   input: [e: Event];

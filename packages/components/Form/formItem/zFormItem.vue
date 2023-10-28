@@ -1,7 +1,10 @@
 <template>
   <div :class="[$style['z-form-item']]" ref="formItemRef">
-    <label :class="[$style['z-form-item-label'], isRequired ? $style['z-form-item-label--before'] : '']"
-      :required="isRequired">{{ props.label }}</label>
+    <label
+      :class="[$style['z-form-item-label'], isRequired ? $style['z-form-item-label--before'] : '']"
+      :required="isRequired"
+      >{{ props.label }}</label
+    >
     <slot></slot>
     <span :class="[$style['z-form-item-message']]">{{ validateMessage }}</span>
   </div>
@@ -19,13 +22,15 @@ import {
   nextTick,
   watchEffect,
   withCtx,
+  onBeforeMount,
+  toRef,
 } from 'vue';
 import { ensureArray, isString } from '../../../utils/basicUtilityFunctions';
 import { usePathToObject } from '../../../utils/usePathToObject';
 import { clone, cloneDeep, isFunction } from 'lodash';
 import Validator from 'async-validator';
 
-import { useSize } from '../useSize';
+import { ComponentSize, useSize } from '../../utils/size';
 import { formItemContextKey } from '../useContext';
 import { useFormContext } from '../useContext';
 
@@ -35,13 +40,13 @@ import type { ValidateState, FormItemProps } from './formItem';
 
 import type { FormContext, FormItemContext, FormValidateFailure } from '../context';
 import { componentSizeMap } from '../../utils/size';
+import { useComponentSize } from '../../../hooks';
 
+const formContext = <FormContext>useFormContext();
 const props = withDefaults(defineProps<FormItemProps>(), {
   size: 'default',
 });
 
-const itemSize = useSize('form');
-const formContext = <FormContext>useFormContext();
 const formItemRef = ref<HTMLDivElement>();
 const validateMessage = ref('');
 const validationState = ref<ValidateState>('unchecked');
@@ -116,7 +121,7 @@ const filterRules = (trigger: Trigger) => {
 
 const propString = computed(() => {
   if (!props.prop) return '';
-  return props.prop
+  return props.prop;
 });
 
 const onValidationFailed = (error: FormValidateFailure) => {
@@ -179,14 +184,14 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
 
 const resetField: FormItemContext['resetField'] = () => {
   if (!formContext.model || !props.prop) {
-    return
+    return;
   }
-  clearValidate()
+  clearValidate();
 };
 
 const clearValidate: FormItemContext['clearValidate'] = () => {
-  validationState.value = 'unchecked'
-  validateMessage.value = ''
+  validationState.value = 'unchecked';
+  validateMessage.value = '';
 };
 
 const context: FormItemContext = reactive({
@@ -226,12 +231,8 @@ watchEffect(() => {
 
 <style module lang="postcss">
 .z-form-item {
-  @apply flex mb-5 items-center flex-wrap;
-  height: v-bind(itemBoxHeight);
-
-  > :nth-child(2) {
-    height: v-bind(itemSize);
-  }
+  @apply flex mb-3 items-center flex-wrap;
+  min-height: v-bind(itemBoxHeight);
 }
 
 .z-form-item-label {
@@ -245,7 +246,7 @@ watchEffect(() => {
 }
 
 .z-form-item-message {
-  @apply basis-full text-error h-5 text-xs;
+  @apply basis-full text-error h-4 text-xs;
   margin-left: v-bind(labelWidth);
 }
 </style>
