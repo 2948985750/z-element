@@ -7,7 +7,7 @@ type CheckBoxOption = {
   disabled?: boolean;
 };
 
-export interface CheckBoxOptionContext {
+export interface CheckBoxItemContext {
   switchChecked: (isChecked?: boolean) => void;
   label: number | string;
   checked: Ref<boolean>;
@@ -22,8 +22,8 @@ export interface CheckBoxProps {
 
 export interface CheckboxContext extends Omit<CheckBoxProps, 'size'> {
   size: Ref<number | string>;
-  addCheckBoxOption: (context: CheckBoxOptionContext) => void;
-  removeCheckBoxOption: (context: CheckBoxOptionContext) => void;
+  addCheckBoxOption: (context: CheckBoxItemContext) => void;
+  removeCheckBoxOption: (context: CheckBoxItemContext) => void;
   addCheckedOpt: (value: string | number) => void;
   removeCheckedOpt: (value: string | number) => void;
 }

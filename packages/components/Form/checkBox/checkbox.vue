@@ -1,7 +1,7 @@
 <template>
   <div class="z-checkbox-wrapper">
     <template v-for="opt in props.options" :key="opt.key">
-      <Option type="checkbox" :label="opt.label" :disabled="opt.disabled"></Option>
+      <Option :label="opt.label" :disabled="opt.disabled"></Option>
     </template>
   </div>
 </template>
@@ -10,18 +10,20 @@
 import { ref, provide, reactive, onMounted, watch, watchEffect, nextTick } from 'vue';
 import { useFormItemContext } from '../useContext';
 import { useComponentSize } from '../../../hooks/index';
-import Option from '../components/selectable.vue';
+
+import Option from './checkbox.base.vue';
 import { checkboxKey } from './checkbox';
-import type { CheckBoxProps, CheckboxContext, CheckBoxOptionContext, CheckBoxEmit } from './checkbox';
 import { useSize } from '../../utils/size';
+import type { CheckBoxProps, CheckboxContext, CheckBoxItemContext, CheckBoxEmit } from './checkbox';
 
 const props = withDefaults(defineProps<CheckBoxProps>(), {
   size: 'default',
 });
+
 const emit = defineEmits<CheckBoxEmit>();
 const comSizeNumber = useComponentSize(props.size);
 const size = useSize(comSizeNumber, 'px');
-const selectItems: CheckBoxOptionContext[] = [];
+const selectItems: CheckBoxItemContext[] = [];
 const selectedOpt = ref<CheckBoxProps['modelValue']>(props.modelValue);
 const ctx = useFormItemContext();
 

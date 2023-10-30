@@ -1,12 +1,9 @@
 import zForm from './form/zForm.vue';
 import zFormItem from './formItem/zFormItem.vue';
 export { zForm, zFormItem };
-export default {
-  zForm,
-  zFormItem,
-};
 
-export * from './form/form';
-export * from './formItem/formItem';
+export * from './form';
+export * from './formItem';
 export * from './context';
 export * from './checkBox';
+export * from './radio';
